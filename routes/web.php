@@ -1,0 +1,69 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+Route::get('storage-link', function(){
+	return Artisan::call('storage:link');
+});
+
+Route::get('/', 'EventsController@index')->middleware('auth');
+
+Auth::routes();
+
+Route::get('/paciente', 'PacienteController@index')->name('paciente.index');
+
+Route::get('/admin', 'ServicioController@index')->name('admin.index');
+
+Route::get('/paciente/create', 'PacienteController@create')->name('paciente.create');
+
+Route::get('/paciente/models', 'PacienteController@model')->name('paciente.model');
+
+Route::post('/paciente', 'PacienteController@store')->name('paciente.store');
+
+Route::post('/user', 'Auth\RegisterController@registroNuevo')->name('user.store');
+
+Route::post('/paciente/{paciente}/historia_clinica', 'HistoriaClinicaController@store')->name('hc.store');
+
+Route::post('/paciente/{paciente}/historia_clinica/create', 'HistoriaClinicaController@create')->name('hc.create');
+
+Route::get('/paciente/{paciente}/expediente/show', 'HistoriaClinicaController@show')->name('hc.show');
+
+Route::get('/paciente/{paciente}', 'PacienteController@show')->name('paciente.show');
+
+Route::get('/buscar', 'PacienteController@search')->name('buscar.show');
+
+Route::get('/paciente/{paciente}/nota/create', 'NotaController@create');
+
+Route::get('/paciente/{paciente}/sv/create', 'SignosVitalController@create');
+
+Route::get('/paciente/{paciente}/historia_clinica/create', 'HistoriaClinicaController@create');
+
+Route::post('/paciente/{paciente}/nota', 'NotaController@store');
+
+Route::post('/admin/servicio', 'ServicioController@store');
+
+Route::get('/admin/ingresos', 'ServicioController@ingresos')->name('admin.ingreso');
+
+Route::delete('/admin/servicio/{servicio}', 'ServicioController@destroy')->name('admin.destroy');
+
+Route::post('/paciente/{paciente}/dolor', 'DolorController@store');
+
+Route::post('/paciente/{paciente}/estudio', 'EstudioController@store');
+
+Route::post('/paciente/{paciente}/sv', 'SignosVitalController@store');
+
+Route::post('/events2', 'EventsController@show');
+
+Route::resource('events', 'EventsController')->middleware('auth');
+
+Route::get('/home', 'HomeController@index')->name('home');
