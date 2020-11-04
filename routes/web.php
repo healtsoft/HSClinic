@@ -24,13 +24,15 @@ Route::get('/paciente', 'PacienteController@index')->name('paciente.index');
 
 Route::get('/admin', 'ServicioController@index')->name('admin.index');
 
+Route::get('/admin/users', 'ServicioController@showUser')->name('admin.showUser');
+
 Route::get('/paciente/create', 'PacienteController@create')->name('paciente.create');
 
 Route::get('/paciente/models', 'PacienteController@model')->name('paciente.model');
 
 Route::post('/paciente', 'PacienteController@store')->name('paciente.store');
 
-Route::post('/user', 'Auth\RegisterController@registroNuevo')->name('user.store');
+Route::post('/user', 'PacienteController@registroNuevo')->name('user.store');
 
 Route::post('/paciente/{paciente}/historia_clinica', 'HistoriaClinicaController@store')->name('hc.store');
 
@@ -42,6 +44,8 @@ Route::get('/paciente/{paciente}', 'PacienteController@show')->name('paciente.sh
 
 Route::get('/buscar', 'PacienteController@search')->name('buscar.show');
 
+Route::get('/admin/buscar', 'ServicioController@search')->name('buscar.admin');
+
 Route::get('/paciente/{paciente}/nota/create', 'NotaController@create');
 
 Route::get('/paciente/{paciente}/sv/create', 'SignosVitalController@create');
@@ -50,11 +54,19 @@ Route::get('/paciente/{paciente}/historia_clinica/create', 'HistoriaClinicaContr
 
 Route::post('/paciente/{paciente}/nota', 'NotaController@store');
 
+Route::post('/servicio/update/{servicio}', 'ServicioController@update');
+
+Route::post('/paciente/update/{paciente}', 'PacienteController@update');
+
+Route::delete('/paciente/delete/{paciente}', 'PacienteController@destroy');
+
 Route::post('/admin/servicio', 'ServicioController@store');
 
 Route::get('/admin/ingresos', 'ServicioController@ingresos')->name('admin.ingreso');
 
 Route::delete('/admin/servicio/{servicio}', 'ServicioController@destroy')->name('admin.destroy');
+
+Route::delete('/admin/user/{user}', 'PacienteController@destroyUser')->name('admin.destroyUser');
 
 Route::post('/paciente/{paciente}/dolor', 'DolorController@store');
 

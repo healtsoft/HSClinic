@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Dolor;
 use App\Nota;
+use App\Dolor;
 use App\Paciente;
 use App\SignosVital;
 use App\HistoriaClinica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class PacienteController extends Controller
 {
@@ -98,6 +100,18 @@ class PacienteController extends Controller
             'telefono' => $data['telefono'],
         ]);*/
 
+        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
+    }
+
+    public function registroNuevo(Request $request)
+    {
+        $data = request();
+        DB::table('users')->insert([
+            'name' => $data['name'],
+            'rol' => $data['rol'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
         return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
     }
 
@@ -223,7 +237,10 @@ class PacienteController extends Controller
      */
     public function update(Request $request, Paciente $paciente)
     {
-        //
+        $cambio = request()->only(['nombre','fechaNacimiento','correo','telefono']);
+
+        $respuesta = Paciente::where('id',$paciente->id)->update($cambio);
+        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
     }
 
     /**
@@ -234,6 +251,15 @@ class PacienteController extends Controller
      */
     public function destroy(Paciente $paciente)
     {
-        //
+        $paciente->delete();
+
+        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
+    }
+
+    public function destroyUser(User $user)
+    {
+        $user->delete();
+
+        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
     }
 }

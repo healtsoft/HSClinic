@@ -18,7 +18,57 @@
                                 <td class="centext" scole="col">{{ $servicio->servicio }}</td>
                                 <td class="centext" scole="col">${{ $servicio->costo }}</td>
                                 <td>
-                                    <a href="" class="btn btn-dark d-block w-100 mb-2">Editar</a>
+                                    <a href="#" data-toggle="modal" data-target="#editUs{{ $servicio->id }}" class="btn btn-dark d-block w-100 mb-2">Editar</a>
+                                    <div class="modal fade" id="editUs{{ $servicio->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4>Editar datos del Servicio</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">
+                                                        <span>&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="POST" action="/servicio/update/{{ $servicio->id }}">
+                                                    <div class="modal-body">
+                                                        @csrf
+                                                        <div class="form-group">
+                                                            <label for="servicio">Servicio</label>
+                                                            <input type="text"
+                                                                name="servicio"
+                                                                class="form-control"
+                                                                id="servicio"
+                                                                placeholder="Servicio"
+                                                                required
+                                                                value="{{ $servicio->servicio }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="descripcion">Descripcion</label>
+                                                            <input type="text"
+                                                                name="descripcion"
+                                                                class="form-control"
+                                                                id="descripcion"
+                                                                placeholder="Descripcion"
+                                                                required
+                                                                value="{{ $servicio->descripcion }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="costo">Costo</label>
+                                                            <input type="text"
+                                                                name="costo"
+                                                                class="form-control"
+                                                                id="costo"
+                                                                placeholder="Costo"
+                                                                required
+                                                                value="{{ $servicio->costo }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="btn btn-primary" value="Actualizar">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <eliminar-servicio
                                         servicio-id={{ $servicio->id }}
                                     ></eliminar-servicio>

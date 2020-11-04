@@ -139,7 +139,7 @@ class HistoriaClinicaController extends Controller
          # ==================================
          $idHC = $hc->id;
         //return redirect(route('paciente.show', $paciente->id));
-        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
+        return redirect( "/paciente/$request->idPaciente" )->with('success', 'Paciente Creado con Exito');
     }
 
 

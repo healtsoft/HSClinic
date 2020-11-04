@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-				<h4>Crear Nuevo Paciente</h4>
+				<h4>Crear Nuevo Usuario</h4>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
@@ -78,14 +78,11 @@
 						<input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
 					</div>
 				</div>
-
-				<div class="form-group row mb-0">
-					<div class="col-md-6 offset-md-4">
-						<button type="submit" class="btn btn-primary">
-							{{ __('Register') }}
-						</button>
-					</div>
-				</div>
+				<div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">
+						{{ __('Register') }}
+					</button>
+                </div>
 			</form>
         </div>
     </div>

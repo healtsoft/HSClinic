@@ -102,7 +102,7 @@
                         Servicio</span></a>
                 <a href="#" data-toggle="modal" data-target="#cdolor"><i
                         class="fas fa-notes-medical"></i><span>Ingresos</span></a>
-                <a href="#" data-toggle="modal" data-target="#cestudio"><i class="fas fa-x-ray"></i><span>Crear
+                <a href="#" data-toggle="modal" data-target="#createUser"><i class="fas fa-x-ray"></i><span>Crear
                         Usuario</span></a>
                 <a href=""><i class="fas fa-file-medical"></i><span>Ver Usuarios</span></a>
                 <a href=""><i class="fas fa-arrow-left"></i><span>Regresar</span></a>
@@ -123,15 +123,16 @@
                     Servicio</span></a>
             <a href="{{ route('admin.ingreso') }}"><i
                     class="fas fa-notes-medical"></i><span>Ingresos</span></a>
-            <a href="#" data-toggle="modal" data-target="#cestudio"><i class="fas fa-x-ray"></i><span>Crear
+            <a href="#" data-toggle="modal" data-target="#createUser"><i class="fas fa-x-ray"></i><span>Crear
                     Usuario</span></a>
-            <a href=""><i class="fas fa-file-medical"></i><span>Ver Usuarios</span></a>
-            <a href=""><i class="fas fa-arrow-left"></i><span>Regresar</span></a>
+            <a href="{{ route('admin.showUser') }}"><i class="fas fa-file-medical"></i><span>Ver Usuarios</span></a>
+            <a href="/admin"><i class="fas fa-arrow-left"></i><span>Regresar</span></a>
         </div>
         <!--sidebar end-->
 
         <main class="conten">
             @yield('content')
+            @include('paciente.createuser')
         </main>
     </div>
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
@@ -50,14 +52,17 @@ class RegisterController extends Controller
      * 
      */
 
-    public function registroNuevo(array $data)
+    public function registroNuevo(Request $request)
     {
-        return User::create([
+        $data = request();
+        dd($data);
+        DB::table('users')->insert([
             'name' => $data['name'],
             'rol' => $data['rol'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
     }
 
     /**

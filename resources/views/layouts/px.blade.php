@@ -25,7 +25,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-primary shadow-sm head">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="../images/logo.png" width="170" height="50">
+                    <img src="/images/logo.png" width="170" height="50">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -86,11 +86,19 @@
           <label for="check">
               
           </label>
+          @php
+              $c = 0;
+          @endphp
           <div class="mobile_nav">
               <div class="nav_bar">
                   @foreach($report->datos_personals as $hc)
-                      <img src="/storage/{{ $hc->fotoUrl }}" class="mobile_profile_image" alt="">
-                      <i class="fa fa-bars nav_btn"></i>
+                    @php
+                        $c = $c + 1;
+                    @endphp
+                    @if ($c==0)
+                        <img src="/storage/{{ $hc->fotoUrl }}" class="mobile_profile_image" alt="">
+                        <i class="fa fa-bars nav_btn"></i>
+                    @endif
                   @endforeach
               </div>
               <div class="mobile_nav_items">
@@ -108,13 +116,27 @@
             <!--sidebar start-->
             <div class="sidebar">
               <div class="profile_info">
+                  @php
+                      $c = 0;
+                      $p = 0;
+                  @endphp
                   @foreach($report->datos_personals as $hc)
-                      <img src="/storage/{{ $hc->fotoUrl }}" class="profile_image" alt="">
-                      <h4>{{$report->nombre}}</h4>
+                    @php
+                        $p = $p + 1;
+                        $c = $c + 1;
+                    @endphp
+                    @if ($c == $p)
+                        @php
+                            $c = $c + 1;
+                        @endphp
+                        <img src="/storage/{{ $hc->fotoUrl }}" class="profile_image" alt="">
+                        <h4>{{$report->nombre}}</h4>
+                    @endif
                       {{-- <h6 class="colorb">Edad: {{$hc->edad}}</h6>
                       <h6 class="colorb">Dx: {{$hc->diagnostico}}</h6>
                       <h6 class="colorb">Enfermedad: {{$hc->antecedentes_patologicos}}</h6> --}}
                   @endforeach
+                  {{$p}}
               </div>
               
               <a href="#" data-toggle="modal" data-target="#sv"><i class="fas fa-stethoscope"></i><span>Signos Vitales</span></a>
