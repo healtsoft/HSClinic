@@ -8,7 +8,7 @@ class Paciente extends Model
 {
 
     protected $fillable = [
-        'nombre', 'fechaNacimiento', 'correo', 'telefono'
+        'nombre', 'fechaNacimiento', 'correo', 'procedencia', 'seguro', 'telefono'
     ];
 
     // Obtiene la información del usuario via FK

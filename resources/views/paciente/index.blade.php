@@ -76,6 +76,16 @@
                                                         value="{{ $paciente->correo }}">
                                                 </div>
                                                 <div class="form-group">
+                                                    <label for="procedencia">Procedencia</label>
+                                                    <input type="text"
+                                                        name="procedencia"
+                                                        class="form-control"
+                                                        id="procedencia"
+                                                        placeholder="Procedencia"
+                                                        required
+                                                        value="{{ $paciente->procedencia }}">
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="telefono">Telefono</label>
                                                     <input type="text"
                                                         name="telefono"

@@ -19,7 +19,57 @@
                                 <td class="centext" scole="col">{{ $user->rol }}</td>
                                 <td class="centext" scole="col">{{ $user->email }}</td>
                                 <td>
-                                    <a href="" class="btn btn-dark d-block w-100 mb-2">Editar</a>
+                                    <a href="#" data-toggle="modal" data-target="#editPx{{ $user->id }}" class="btn btn-dark d-block w-100 mb-2">Editar</a>
+                                    <div class="modal fade" id="editPx{{ $user->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4>Editar datos del Usuario</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">
+                                                        <span>&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form method="POST" action="/admin/update/{{ $user->id }}">
+                                                    <div class="modal-body">
+                                                        @csrf
+                                                        <div class="form-group">
+                                                            <label for="name">Nombre</label>
+                                                            <input type="text"
+                                                                name="name"
+                                                                class="form-control"
+                                                                id="name"
+                                                                placeholder="Nombre"
+                                                                required
+                                                                value="{{ $user->name }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="rol">Rol</label>
+                                                            <input type="text"
+                                                                name="rol"
+                                                                class="form-control"
+                                                                id="rol"
+                                                                placeholder="Rol"
+                                                                required
+                                                                value="{{ $user->rol }}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="email">Correo</label>
+                                                            <input type="text"
+                                                                name="email"
+                                                                class="form-control"
+                                                                id="email"
+                                                                placeholder="Correo"
+                                                                required
+                                                                value="{{ $user->email }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="submit" class="btn btn-primary" value="Guardar">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <eliminar-usuario
                                         servicio-id={{ $user->id }}
                                     ></eliminar-usuario>

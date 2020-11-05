@@ -145,6 +145,79 @@ class ServicioController extends Controller
             ;
     }
 
+    public function graficos()
+    {
+        // Recetas con paginación
+        $fs = Carbon::now();
+        $fs = $fs->format('d-m-Y');
+
+        $fc = Carbon::now();
+        $fc = $fc->format('Y-m-d');
+        $servicios = Event::select('servicios.costo as costo')
+                ->join('pacientes', 'events.idPaciente', '=', 'pacientes.id')
+                ->join('users', 'events.idEspecialista', '=', 'users.id')
+                ->join('servicios', 'servicios.id', '=', 'events.title')
+                ->where(DB::raw("DATE_FORMAT(events.start,'%d-%m-%Y')"), '=', $fs)
+                ->get()
+                ;
+
+        $grafica = Event::select('servicios.costo as costo','events.start as fech')
+                ->join('users', 'events.idEspecialista', '=', 'users.id')
+                ->join('servicios', 'servicios.id', '=', 'events.title')
+                ->distinct('events.start')
+                ->get();
+        
+        $g2 = Event::select('servicios.servicio as title', 'events.start as fech')
+                ->join('users', 'events.idEspecialista', '=', 'users.id')
+                ->join('servicios', 'servicios.id', '=', 'events.title')
+                ->where('servicios.servicio', '=', 'Fisioterapia Dermatofuncional')
+                ->distinct('events.start')
+                ->get();
+                
+        $Total = DB::table('events')
+                ->join('users', 'events.idEspecialista', '=', 'users.id')
+                ->join('servicios', 'servicios.id', '=', 'events.title')
+                ->select('servicios.servicio as Servicio', DB::raw('SUM(servicios.costo) as Total'))
+                ->distinct('servicios.servicio')
+                ->groupBy('servicios.id')
+                ->get();
+
+        $TotalxDia = DB::table('events')
+                ->join('users', 'events.idEspecialista', '=', 'users.id')
+                ->join('servicios', 'servicios.id', '=', 'events.title')
+                ->select(DB::raw("DATE_FORMAT(events.start,'%d-%m-%Y') as Fecha, SUM(servicios.costo) as Ganancias"))
+                ->distinct('Fecha')
+                ->groupBy('events.start')
+                ->get();
+
+        $servicioPedido = DB::table('events')
+                ->join('users', 'events.idEspecialista', '=', 'users.id')
+                ->join('servicios', 'servicios.id', '=', 'events.title')
+                ->select('servicios.servicio as Servicio', DB::raw('COUNT(servicios.costo) as Total'))
+                ->distinct('servicios.servicio')
+                ->groupBy('servicios.id')
+                ->get();
+                
+        $events = Event::select('servicios.servicio as title','servicios.costo as costo','pacientes.nombre as nombrePaciente','users.name as nombreEspecialista',DB::raw("DATE_FORMAT(events.start,'%d/%m/%Y')as Fecha"))
+                ->join('pacientes', 'events.idPaciente', '=', 'pacientes.id')
+                ->join('users', 'events.idEspecialista', '=', 'users.id')
+                ->join('servicios', 'servicios.id', '=', 'events.title')
+                ->where(DB::raw("DATE_FORMAT(events.start,'%d-%m-%Y')"), '=', $fs)
+                ->get();
+
+        return view('admin.graficas')
+            ->with('events', $events)
+            ->with('Total', $Total)
+            ->with('servicios', $servicios)
+            ->with('grafica', $grafica)
+            ->with('g2', $g2)
+            ->with('fs', $fs)
+            ->with('fc', $fc)
+            ->with('TotalxDia', $TotalxDia)
+            ->with('servicioPedido', $servicioPedido)
+            ;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

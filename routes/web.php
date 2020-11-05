@@ -58,11 +58,15 @@ Route::post('/servicio/update/{servicio}', 'ServicioController@update');
 
 Route::post('/paciente/update/{paciente}', 'PacienteController@update');
 
+Route::post('/admin/update/{user}', 'PacienteController@updateUser');
+
 Route::delete('/paciente/delete/{paciente}', 'PacienteController@destroy');
 
 Route::post('/admin/servicio', 'ServicioController@store');
 
 Route::get('/admin/ingresos', 'ServicioController@ingresos')->name('admin.ingreso');
+
+Route::get('/admin/graficos', 'ServicioController@graficos')->name('admin.graficas');
 
 Route::delete('/admin/servicio/{servicio}', 'ServicioController@destroy')->name('admin.destroy');
 

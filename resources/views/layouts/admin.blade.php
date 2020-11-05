@@ -119,10 +119,14 @@
                 <h6 class="colorb">Enfermedad: {{ $hc->antecedentes_patologicos }}</h6> --}}
             </div>
 
+            <a href="{{ route('admin.index') }}"><i class="fas fa-stethoscope"></i><span>Ver
+                Servicios</span></a>
             <a href="#" data-toggle="modal" data-target="#cservicio"><i class="fas fa-stethoscope"></i><span>Crear
                     Servicio</span></a>
             <a href="{{ route('admin.ingreso') }}"><i
                     class="fas fa-notes-medical"></i><span>Ingresos</span></a>
+            <a href="{{ route('admin.graficas') }}"><i
+                    class="fas fa-notes-medical"></i><span>Graficas</span></a>
             <a href="#" data-toggle="modal" data-target="#createUser"><i class="fas fa-x-ray"></i><span>Crear
                     Usuario</span></a>
             <a href="{{ route('admin.showUser') }}"><i class="fas fa-file-medical"></i><span>Ver Usuarios</span></a>

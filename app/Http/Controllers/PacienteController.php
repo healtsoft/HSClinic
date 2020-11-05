@@ -88,6 +88,8 @@ class PacienteController extends Controller
             'nombre' => $data['nombre'],
             'fechaNacimiento' => $data['fecha_nacimiento'],
             'correo' => $data['correo'],
+            'procedencia' => $data['procedencia'],
+            'seguro' => $data['seguro'],
             'telefono' => $data['telefono'],
             'idEspecialista' => Auth::user()->id
         ]);
@@ -237,9 +239,17 @@ class PacienteController extends Controller
      */
     public function update(Request $request, Paciente $paciente)
     {
-        $cambio = request()->only(['nombre','fechaNacimiento','correo','telefono']);
+        $cambio = request()->only(['nombre','fechaNacimiento','correo', 'procedencia','telefono']);
 
         $respuesta = Paciente::where('id',$paciente->id)->update($cambio);
+        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
+    }
+
+    public function updateUser(Request $request, User $user)
+    {
+        $cambio = request()->only(['name','rol','email']);
+
+        $respuesta = User::where('id',$user->id)->update($cambio);
         return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
     }
 

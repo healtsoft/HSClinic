@@ -41,6 +41,51 @@
 							value={{ old('correo') }}>
 					</div>
 					<div class="form-group">
+						<label for="procedencia">Procedencia</label>
+						<input type="text"
+							name="procedencia"
+							class="form-control"
+							id="procedencia"
+							placeholder="Procedencia"
+							list="proc"
+							required
+							onchange="showDiv(this)"
+							value={{ old('procedencia') }}>
+						<datalist id="proc">
+
+							<option value="Redes Sociales">
+
+							<option value="Recomendacion">
+
+							<option value="Seguro">
+
+						</datalist>
+						
+					</div>
+						
+					<script type="text/javascript"> 
+						function showDiv(select){ 
+							if(select.value=='Seguro'){ 
+							document.getElementById('hidden_div').style.display = "block";
+							document.getElementById('seguro').value = ""
+							} else{ 
+							document.getElementById('hidden_div').style.display = "none";
+							document.getElementById('seguro').value = "Sin Seguro" 
+							} 
+						} 
+					</script> 
+
+					<div class="form-group" id="hidden_div" style="display:none;">
+						<label for="seguro">Seguro</label>
+						<input type="text"
+							name="seguro"
+							class="form-control"
+							id="seguro"
+							placeholder="Seguro"
+							required
+							value= "Sin Seguro">
+					</div>
+					<div class="form-group">
 						<label for="telefono">Telefono</label>
 						<input type="text"
 							name="telefono"
