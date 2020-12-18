@@ -46,6 +46,8 @@ Route::get('/buscar', 'PacienteController@search')->name('buscar.show');
 
 Route::get('/admin/buscar', 'ServicioController@search')->name('buscar.admin');
 
+Route::get('/admin/buscar2', 'ServicioController@search2')->name('buscar.admin2');
+
 Route::get('/paciente/{paciente}/nota/create', 'NotaController@create');
 
 Route::get('/paciente/{paciente}/sv/create', 'SignosVitalController@create');

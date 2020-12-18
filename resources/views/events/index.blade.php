@@ -47,20 +47,8 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label for="title">Servicio</label>
-                            <input class="form-control" list="serv" type="text" name="title" id="title" required>
-                            <datalist id="serv">
-                                @if ($exist ?? '')
-                                    @foreach ($servicios as $servicio)
-                                        <option>{{ $servicio->id }} - {{ $servicio->servicio }}</option>
-                                    @endforeach
-                                @endif
-                            </datalist>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label for="paciente">Selecciona el Paciente</label>
-                            <input class="form-control" list="colores" type="text" name="paciente" id="paciente" required>
+                            <label for="title">Paciente</label>
+                            <input class="form-control" list="colores" autocomplete="off" type="text" name="title" id="title" required>
                             <datalist id="colores">
                                 @if ($exist ?? '')
                                     @foreach ($pacientes as $paciente)
@@ -68,13 +56,26 @@
                                     @endforeach
                                 @endif
                             </datalist>
-                            <input type="hidden" name="telpx" id="telpx">
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label for="paciente">Servicio</label>
+                            <select class="form-control" type="text" name="paciente" id="paciente" required>
+                                @if ($exist ?? '')
+                                    @foreach ($servicios as $servicio)
+                                        <option>{{ $servicio->id }} - {{ $servicio->servicio }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <br>
+                            <label >Telefono</label>
+                            <input type="show" class="form-control" name="telpx" id="telpx">
                             <input type="hidden" name="nomEsp" id="nomEsp">
                         </div>
 
                         <div class="form-group col-md-12">
                             <label for="user">Seleccionar al Especialista</label>
-                            <input class="form-control" list="esp" type="text" name="terapeuta" id="terapeuta" required>
+                            <input class="form-control" list="esp" type="text" autocomplete="off" name="terapeuta" id="terapeuta" required>
                             <datalist id="esp">
                                 @if ($exist ?? '')
                                     @foreach ($usuarios as $usuario)
@@ -125,6 +126,27 @@
                                 <option value="#CADD64">
 
                             </datalist>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label for="estatus">Estatus del Pago</label>
+                            <select class="form-control" type="text" name="estatus" id="estatus" autocomplete="off" required>
+                                <option value="Efectivo">Efectivo</option>
+
+                                <option value="Cheque">Cheque</option>
+                                
+                                <option value="Transferencia">Transferencia</option>
+
+                                <option value="Tarjeta de débito">Tarjeta de debito</option>
+                                    
+                                <option value="Tarjeta de crédito">Tarjeta de credito</option>
+
+                                <option value="Pagado">Pagado</option>
+                                
+                                <option value="Paquete de 10 Sesiones">Paquete de 10 Sesiones</option>
+
+                                <option value="Paquete de 20 Sesiones">Paquete de 20 Sesiones</option>
+                            </select>
                         </div>
 
                         <div class="form-group col-md-12">

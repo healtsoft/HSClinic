@@ -50,8 +50,6 @@ class HistoriaClinicaController extends Controller
     {
         #Guardamos la imagen y le damos un rezize para que no pese mucho
         $ruta_imagen = $request['PersonalesFotoUrl']->store('upload-foto', 'public');
-        $img = Image::make(public_path("storage/{$ruta_imagen}"))->fit(550, 550);
-        $img->save();
         #Datos personales
         $datosPersonales = new DatosPersonal(); # Crear nuevo modelo
         # Ponerle los datos para guardar

@@ -72,6 +72,42 @@ class ServicioController extends Controller
         return view('admin.buscar', compact('events', 'busqueda', 'servicios', 'fech', 'fc'));
     }
 
+    public function search2(Request $request)
+    {
+        $usuario = auth()->user();
+        // $busqueda = $request['buscar'];
+        $busqueda = $request->get('buscar');
+        $busqueda2 = $request->get('buscar2');
+        $fs = Carbon::now();
+        $fs = $fs->format('d-m-Y');
+        $fc = Carbon::now();
+        $fc = $fc->format('Y-m-d');
+        $servicios = Event::select('servicios.costo as costo')
+                ->join('pacientes', 'events.idPaciente', '=', 'pacientes.id')
+                ->join('users', 'events.idEspecialista', '=', 'users.id')
+                ->join('servicios', 'servicios.id', '=', 'events.title')
+                ->whereBetween(DB::raw("DATE_FORMAT(events.start,'%Y-%m-%d')"), [$busqueda, $busqueda2])
+                ->get()
+                ;
+
+        $events = Event::select('servicios.servicio as title','servicios.costo as costo','pacientes.nombre as nombrePaciente','users.name as nombreEspecialista',DB::raw("DATE_FORMAT(events.start,'%d/%m/%Y')as Fecha"))
+                ->join('pacientes', 'events.idPaciente', '=', 'pacientes.id')
+                ->join('users', 'events.idEspecialista', '=', 'users.id')
+                ->join('servicios', 'servicios.id', '=', 'events.title')
+                ->whereBetween(DB::raw("DATE_FORMAT(events.start,'%Y-%m-%d')"), [$busqueda, $busqueda2])
+                ->get();
+
+        $fech = Event::select(DB::raw("DATE_FORMAT(events.start,'%d-%m-%Y') as Fecha"))
+                ->join('pacientes', 'events.idPaciente', '=', 'pacientes.id')
+                ->join('users', 'events.idEspecialista', '=', 'users.id')
+                ->join('servicios', 'servicios.id', '=', 'events.title')
+                ->where(DB::raw("DATE_FORMAT(events.start,'%Y-%m-%d')"), '=', $busqueda)
+                ->take(1)
+                ->get();
+
+        return view('admin.buscar', compact('events', 'busqueda', 'servicios', 'fech', 'fc'));
+    }
+
     public function ingresos()
     {
         // Recetas con paginación

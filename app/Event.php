@@ -8,7 +8,7 @@ class Event extends Model
 {
     protected $fillable = [
         'title', 'description', 'color', 'textColor',
-        'rendering', 'start', 'end'
+        'rendering', 'start', 'end', 'estatus'
     ];
 
     public function terapeuta()

@@ -6,6 +6,10 @@ use App\Nota;
 use App\Dolor;
 use App\Paciente;
 use App\SignosVital;
+use App\DatosConsulta;
+use App\DatosPersonal;
+use App\DatosPatologico;
+use App\DatosTto;
 use App\HistoriaClinica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -83,16 +87,106 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
-        $data = request();
-        DB::table('pacientes')->insert([
-            'nombre' => $data['nombre'],
-            'fechaNacimiento' => $data['fecha_nacimiento'],
-            'correo' => $data['correo'],
-            'procedencia' => $data['procedencia'],
-            'seguro' => $data['seguro'],
-            'telefono' => $data['telefono'],
-            'idEspecialista' => Auth::user()->id
-        ]);
+
+        $pacientes = new Paciente();
+        $pacientes->nombre = $request->nombre;
+        $pacientes->fechaNacimiento = $request->fecha_nacimiento;
+        $pacientes->correo = $request->correo;
+        $pacientes->procedencia = $request->procedencia;
+        $pacientes->seguro = $request->seguro;
+        $pacientes->telefono = $request->telefono;
+        $pacientes->idEspecialista = Auth::user()->id;
+
+        $pacientes->save();
+
+        $idPx = $pacientes->id;
+
+        $ruta_imagen = ('../images/sf.jpg');
+        $datosPersonales = new DatosPersonal(); # Crear nuevo modelo
+        # Ponerle los datos para guardar
+        $datosPersonales->fotoUrl = $ruta_imagen;
+        $datosPersonales->domicilio = "Sin datos";
+        $datosPersonales->sexo = "Sin datos";
+        $datosPersonales->estadoCivil = "Sin datos";
+        $datosPersonales->ocupacion = "Sin datos";
+        $datosPersonales->estudios = "Sin datos";
+        $datosPersonales->tipoSangre = "Sin datos";
+        $datosPersonales->idPaciente = $idPx;
+        # Guardar en BD
+        $datosPersonales->save();
+        # ==================================
+        # Aquí tenemos el id recién guardado :)
+        # ==================================
+        $idDatosPersonales = $datosPersonales->id;
+
+        #Datos patologicos
+        $datosPatologicos = new DatosPatologico(); # Crear nuevo modelo
+        # Ponerle los datos para guardar
+        $datosPatologicos->enfermedades = "Sin datos";
+        $datosPatologicos->heredofamiliares = "Sin datos";
+        $datosPatologicos->medicamentos = "Sin datos";
+        $datosPatologicos->cirugias = "Sin datos";
+        $datosPatologicos->tipoBandera = "Sin datos";
+        $datosPatologicos->alcohol = "Sin datos";
+        $datosPatologicos->cigarro = "Sin datos";
+        $datosPatologicos->drogas = "Sin datos";
+        $datosPatologicos->fracturas = "Sin datos";
+        # Guardar en BD
+        $datosPatologicos->save();
+        # ==================================
+        # Aquí tenemos el id recién guardado :)
+        # ==================================
+        $idDatosPatologicos = $datosPatologicos->id;
+
+        #Datos de consulta
+        $datosConsulta = new DatosConsulta(); # Crear nuevo modelo
+        # Ponerle los datos para guardar
+        $datosConsulta->motivoConsulta = "Sin datos";
+        $datosConsulta->causaMolestia = "Sin datos";
+        $datosConsulta->inicioMolestia = "Sin datos";
+        $datosConsulta->ttoPrevio = "Sin datos";
+        $datosConsulta->causaAumento = "Sin datos";
+        $datosConsulta->causaDisminuye = "Sin datos";
+        $datosConsulta->nivelDolor = "Sin datos";
+        $datosConsulta->alteracionesMarcha = "Sin datos";
+        $datosConsulta->disposotivoAsistencia = "Sin datos";
+        # Guardar en BD
+        $datosConsulta->save();
+        # ==================================
+        # Aquí tenemos el id recién guardado :)
+        # ==================================
+        $idDatosConsulta = $datosConsulta->id;
+
+        #Datos Tto
+        $datosTto = new DatosTto(); # Crear nuevo modelo
+        # Ponerle los datos para guardar
+        $datosTto->dxMedico = "Sin datos";
+        $datosTto->dxFisio = "Sin datos";
+        $datosTto->codigoCie = "Sin datos";
+        $datosTto->tratamiento = "Sin datos";
+        $datosTto->objetivoTto = "Sin datos";
+        $datosTto->comentarios = "Sin datos";
+        $datosTto->numeroSesiones = "0";
+        # Guardar en BD
+        $datosTto->save();
+        # ==================================
+        # Aquí tenemos el id recién guardado :)
+        # ==================================
+        $idDatosTto = $datosTto->id;
+
+         #Historia Clinica
+         $hc = new HistoriaClinica(); # Crear nuevo modelo
+         # Ponerle los datos para guardar
+         $hc->idPaciente = $idPx;
+         $hc->idPatologicos = $idDatosPatologicos;
+         $hc->idConsulta = $idDatosConsulta;
+         $hc->idTto = $idDatosTto;
+         # Guardar en BD
+         $hc->save();
+         # ==================================
+         # Aquí tenemos el id recién guardado :)
+         # ==================================
+         $idHC = $hc->id;
 
         /*almacenar en la BD(con modelo)
         auth()->user()->pacientes()->create([
@@ -192,7 +286,7 @@ class PacienteController extends Controller
             ->get();
 
         $dolor = Dolor::select(
-            'dolors.nivelDolor',
+            'dolors.nivelDolor'
         )
             ->where('dolors.idPaciente', '=', $paciente->id)
             ->orderby('created_at','DESC')

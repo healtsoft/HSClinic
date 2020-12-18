@@ -74,10 +74,11 @@ class EventsController extends Controller
     public function store(Request $request)
     {
         
-        $idServicio = request()->get('title');
-        $idPaciente = request()->get('paciente');
+        $idServicio = request()->get('paciente');
+        $idPaciente = request()->get('title');
         $idTerapeuta = request()->get('terapeuta');
         $description = request()->get('description');
+        $estatus = request()->get('estatus');
         $color = request()->get('color');
         $textColor = request()->get('textColor');
         $start = (request()->get('start'));
@@ -98,7 +99,7 @@ class EventsController extends Controller
             $end3 = $i + $diff;
             $end3 = date('Y/m/d H:i:s', $end3);
 
-            DB::table('events')->insert(['title' => $idServicio, 'idPaciente' => $idPaciente, 'idEspecialista' => $idTerapeuta, 'description' => $description, 'color' => $color, 'textColor' => $textColor, 'start' => $start3, 'end' => $end3]);
+            DB::table('events')->insert(['title' => $idServicio, 'idPaciente' => $idPaciente, 'idEspecialista' => $idTerapeuta, 'description' => $description, 'color' => $color, 'textColor' => $textColor, 'start' => $start3, 'end' => $end3, 'estatus' => $estatus]);
 
         }
     }
@@ -115,14 +116,16 @@ class EventsController extends Controller
         $user = auth()->user()->id;
         $rol = auth()->user()->rol;
         if ($rol == 'Admin' || $rol == 'Administrativo') {
-            $events = Event::select('events.id', 'events.title as idServicio', 'servicios.servicio as title','pacientes.nombre as nombrePaciente','users.name as nombreEspecialista','pacientes.telefono as telPaciente','users.name as nomEsp','events.start','events.end','events.color','events.description')
+            $events = Event::select('events.id', 'pacientes.id as idPaciente', 'servicios.id as idServicio', 'events.estatus as estatus', 'pacientes.nombre as title','servicios.servicio as nombrePaciente', 'datos_personals.fotoUrl as fotoPx','users.name as nombreEspecialista','pacientes.telefono as telPaciente','users.name as nomEsp','users.id as idEsp','events.start','events.end','events.color','events.description')
                 ->join('pacientes', 'events.idPaciente', '=', 'pacientes.id')
+                ->join('datos_personals', 'datos_personals.idPaciente', '=', 'pacientes.id')
                 ->join('users', 'events.idEspecialista', '=', 'users.id')
                 ->join('servicios', 'servicios.id', '=', 'events.title')
                 ->get();
         }else{
-            $events = Event::select('events.id', 'events.title as idServicio', 'servicios.servicio as title','pacientes.nombre as nombrePaciente','users.name as nombreEspecialista','pacientes.telefono as telPaciente','users.name as nomEsp','events.start','events.end','events.color','events.description')
+            $events = Event::select('events.id', 'pacientes.id as idPaciente', 'servicios.id as idServicio', 'events.estatus as estatus', 'pacientes.nombre as title','servicios.servicio as nombrePaciente', 'datos_personals.fotoUrl as fotoPx','users.name as nombreEspecialista','pacientes.telefono as telPaciente','users.name as nomEsp','users.id as idEsp','events.start','events.end','events.color','events.description')
                 ->join('pacientes', 'events.idPaciente', '=', 'pacientes.id')
+                ->join('datos_personals', 'datos_personals.idPaciente', '=', 'pacientes.id')
                 ->join('users', 'events.idEspecialista', '=', 'users.id')
                 ->join('servicios', 'servicios.id', '=', 'events.title')
                 ->where('users.id', '=', $user)
@@ -153,18 +156,23 @@ class EventsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $datosEvento = request()->only(['title','description','color','textColor','start','end']);
-        
-        $idServicio = request()->get('title');
+        $datosEvento = request()->only(['title', 'servicio', 'terapeuta','description', 'estatus','color','textColor','start','end']);
+
+        $idServicio = request()->get('paciente');
+        $idPaciente = request()->get('title');
+        $idTerapeuta = request()->get('terapeuta');
         $description = request()->get('description');
+        $estatus = request()->get('estatus');
         $color = request()->get('color');
         $textColor = request()->get('textColor');
         $start = (request()->get('start'));
         $end = (request()->get('end'));
+        
+        $idServicio = intval(preg_replace('/[^0-9]+/', '', $idServicio), 10); 
+        $idPaciente = intval(preg_replace('/[^0-9]+/', '', $idPaciente), 10); 
+        $idTerapeuta = intval(preg_replace('/[^0-9]+/', '', $idTerapeuta), 10); 
 
-        $idServicio = intval(preg_replace('/[^0-9]+/', '', $idServicio), 10);
-
-        $datosEvento = ['title' => $idServicio,'description' => $description,'color' => $color,'textColor' => $textColor,'start' => $start,'end' => $end];
+        $datosEvento = ['title' => $idServicio, 'idPaciente' => $idPaciente,'idEspecialista' => $idTerapeuta,'description' => $description,'color' => $color,'textColor' => $textColor,'start' => $start,'end' => $end, 'estatus' => $estatus];
 
         $respuesta = Event::where('id',$id)->update($datosEvento);
         

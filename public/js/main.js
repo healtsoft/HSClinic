@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#start_date').val(info.dateStr);
             $('#start_time').val('12:00');
             $('#end_date').val(info.dateStr);
-            $('#end_time').val('12:30');
+            $('#end_time').val('12:45');
             
             // Show hide footer buttons
             $("#btnAdd").show();
@@ -176,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#end_time').val(end_hours+":"+end_minutes),
             $('#color').val(info.event.backgroundColor),
             $('#description').val(info.event.extendedProps.description);
+            $('#estatus').val(info.event.extendedProps.estatus);
 
             eventstart = start_year+"-"+start_month+"-"+start_day;
             
@@ -222,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#end_time').val(end_hours+":"+end_minutes),
             $('#color').val(info.event.backgroundColor),
             $('#description').val(info.event.extendedProps.description);
+            $('#estatus').val(info.event.extendedProps.estatus);
 
             var f = new Date();
             var f2 = f.getDate() > 9 ? (f.getFullYear() + "-" + (f.getMonth() +1) + "-" + f.getDate()) : (f.getFullYear() + "-" + (f.getMonth() +1) + "-0" + f.getDate());
@@ -264,17 +266,18 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // setting date and time
 			$('#id').val(info.event.id),
-            $('#title').val(info.event.extendedProps.idServicio + " - " + info.event.title),
-            $('#paciente').val(info.event.extendedProps.nombrePaciente),
+            $('#title').val(info.event.extendedProps.idPaciente + " - " + info.event.title),
+            $('#paciente').val(info.event.extendedProps.idServicio + " - " + info.event.extendedProps.nombrePaciente),
             $('#telpx').val(info.event.extendedProps.telPaciente),
             $('#nomEsp').val(info.event.extendedProps.nomEsp),   
-            $('#terapeuta').val(info.event.extendedProps.nombreEspecialista),               
+            $('#terapeuta').val(info.event.extendedProps.idEsp + " - " + info.event.extendedProps.nombreEspecialista),               
             $('#start_date').val(start_year+"-"+start_month+"-"+start_day),
             $('#start_time').val(start_hours+":"+start_minutes),
             $('#end_date').val(end_year+"-"+end_month+"-"+end_day),
             $('#end_time').val(end_hours+":"+end_minutes),
             $('#color').val(info.event.backgroundColor),
             $('#description').val(info.event.extendedProps.description);
+            $('#estatus').val(info.event.extendedProps.estatus);
 
             var f = new Date();
             var f2 = f.getDate() > 9 ? (f.getFullYear() + "-" + (f.getMonth() +1) + "-" + f.getDate()) : (f.getFullYear() + "-" + (f.getMonth() +1) + "-0" + f.getDate());
@@ -297,21 +300,19 @@ document.addEventListener('DOMContentLoaded', function() {
         },
 
         eventRender: function(info) {
-            /*if (info.event.extendedProps.fotoPx == null || info.event.extendedProps.fotoPx == "" || info.event.extendedProps.fotoPx == '') {
-                alert('no hay foto');
-            } else {
-                alert(' hay foto');
-            }
-            var foto = info.event.extendedProps.fotoPx != null && info.event.extendedProps.fotoPx != "" ? '<img src="/storage/'+info.event.extendedProps.fotoPx+'" width="100" height="100">' +"<br>" : '<img src="/storage/upload-foto/7DuZ4InGy641sNy5hlmc13LmnklxLTVv6lBes7QQ.jpeg" width="100" height="100">' +"<br>";
-            tippy(info.el, { 
+        
+            var foto = info.event.extendedProps.fotoPx != null && info.event.extendedProps.fotoPx != "" ? '<img src="../storage/'+info.event.extendedProps.fotoPx+'" width="100" height="100">' +"<br>" : '<img src="/storage/upload-foto/upload-foto/waBT3FddM3HUPI40v5KLPG4foQ1aI1rNsBTGhIbh.jpeg.jpeg" width="100" height="100">' +"<br>";
+            tippy(info.el, {
                 content: 
                 foto +
-                "Paciente: " + info.event.extendedProps.nombrePaciente
+                "Paciente: " + info.event.title + '<br>'
+                + "Servicio: " + info.event.extendedProps.nombrePaciente + '<br>'
+                + "Tel: " + info.event.extendedProps.telPaciente
                     ,
                 allowHTML: true,
-                interactive: true,
+                interactive: false,
                 hideOnClick: true,
-              });*/
+              });
           },
 
     });
@@ -356,6 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 color: $('#color').val(),
                 textColor: '#ffffff',
                 description: $('#description').val(),
+                estatus: $('#estatus').val(),
                 '_token': $("meta[name='csrf-token']").attr("content"),
                 '_method': method
             }
@@ -408,7 +410,8 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#title').val(""),
         $('#paciente').val(""),
         $('#terapeuta').val(""),
-		$('#description').val(""),
+        $('#description').val(""),
+        $('#estatus').val(""),
 		$('#color').val(""),
 		$('#start_date').val(""),
         $('#start_time').val(""),

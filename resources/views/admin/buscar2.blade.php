@@ -26,19 +26,14 @@
                         window.print();
                         
                         document.body.innerHTML = contenidoOriginal;
+                        
                     }
-
-                    function fec(){
-                        var inicio = Date.now();
-                        $("#buscar").val(inicio);
-                    }
-                    
                 </script>
                 <form class="container h-100" action={{ route('buscar.admin') }}>
                     <div class="row h-100 align-items-center">
                         <div class="col-md-12 texto-buscar">
                             <h2 class="divle">Buscar Ingresos por Fecha</h2>
-                            <input type="date" max="{{$fc}}" value="{{$fc}}" id="buscar" name="buscar" class="form-control" placeholder="Buscar" />
+                            <input type="date" max="{{$fc}}" value="{{$fc}}" name="buscar" class="form-control" placeholder="Buscar" />
                             <input type="submit" class="btn btn-primary" value="Buscar">
                         </div>
                     </div>
@@ -51,7 +46,10 @@
                         <br><br>
                         <hr>
                     </div>
-                    <h1 class="centext">Ingresos del {{$fs}}</h1>
+                    @foreach($fech as $f)
+                        <h1 class="centext">Ingresos del {{$f->Fecha}}</h1>
+                    @endforeach
+                    
                     <table class="table">
                         <thead class="">
                             <tr>
@@ -59,7 +57,6 @@
                                 <th class="centext" scole="col">Costo</th>
                                 <th class="centext" scole="col">Paciente</th>
                                 <th class="centext" scole="col">Especialista</th>
-                                <th class="centext" scole="col">Fecha</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,69 +67,12 @@
                                     <td class="centext" scole="col">${{ $citas->costo }}</td>
                                     <td class="centext" scole="col">{{ $citas->nombrePaciente }}</td>
                                     <td class="centext" scole="col">{{ $citas->nombreEspecialista }}</td>
-                                    <td class="centext" scole="col">{{ $citas->Fecha }}</td>
                                 </tr>
                                 
                             @endforeach
                         </tbody>
                         
                     </table>
-                    <br>
-                    <br>
-                    <br>
-                    <h1>Total: ${{$c}} MXN</h1>
-                </div>
-                <input class="btn btn-primary" type="button" onclick="printDiv('areaImprimir')" value="Imprimir Ticket" />
-                
-                <hr>
-                <br>
-                <br>
-                <hr>
-                <form class="container h-100" action={{ route('buscar.admin2') }}>
-                    <div class="row h-100 align-items-center">
-                        <div class="col-md-12 texto-buscar">
-                            <h1 class="divle">Buscar Ingresos por rango de fechas</h1>
-                            <input type="date" value="{{$fc}}" id="buscar" name="buscar" class="form-control col-md-6 divle" placeholder="Buscar" />
-                            <input type="date" value="{{$fc}}" id="buscar2" name="buscar2" class="form-control col-md-6" placeholder="Buscar" />
-                            <input type="submit" class="btn btn-primary" value="Buscar">
-                        </div>
-                    </div>
-                </form>
-                <div id="areaImprimir2">
-                    <div id="impre" style="display: none">
-                        <img class="divle" src="../images/hs.png" width="120" height="120">
-                        <br><br>
-                        <h1 class="centext">Ticket de los ingresos generados</h1>
-                        <br><br>
-                        <hr>
-                    </div>
-                    <h1 class="centext">Ingresos del {{$fs}}</h1>
-                    <table class="table">
-                        <thead class="">
-                            <tr>
-                                <th class="centext" scole="col">Servicios</th>
-                                <th class="centext" scole="col">Costo</th>
-                                <th class="centext" scole="col">Paciente</th>
-                                <th class="centext" scole="col">Especialista</th>
-                                <th class="centext" scole="col">Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($events as $citas)
-                                
-                                <tr class="centext">
-                                    <td class="centext" scole="col">{{ $citas->title }}</td>
-                                    <td class="centext" scole="col">${{ $citas->costo }}</td>
-                                    <td class="centext" scole="col">{{ $citas->nombrePaciente }}</td>
-                                    <td class="centext" scole="col">{{ $citas->nombreEspecialista }}</td>
-                                    <td class="centext" scole="col">{{ $citas->Fecha }}</td>
-                                </tr>
-                                
-                            @endforeach
-                        </tbody>
-                        
-                    </table>
-                    <br>
                     <br>
                     <br>
                     <h1>Total: ${{$c}} MXN</h1>
