@@ -136,12 +136,11 @@
                       <h6 class="colorb">Dx: {{$hc->diagnostico}}</h6>
                       <h6 class="colorb">Enfermedad: {{$hc->antecedentes_patologicos}}</h6> --}}
                   @endforeach
-                  {{$p}}
               </div>
               
               <a href="#" data-toggle="modal" data-target="#sv"><i class="fas fa-stethoscope"></i><span>Signos Vitales</span></a>
               <a href="#" data-toggle="modal" data-target="#cnote"><i class="fas fa-notes-medical"></i><span>Nota Terapeutica</span></a>
-              <a href="#" data-toggle="modal" data-target="#cdolor"><i class="fas fa-notes-medical"></i><span>Dolor</span></a>
+              <a href="{{ route('dolor.show', $report->id) }}"><i class="fas fa-notes-medical"></i><span>Dolor</span></a>
               <a href="#" data-toggle="modal" data-target="#cestudio"><i class="fas fa-x-ray"></i><span>Estudios</span></a>
               <a href="{{ route('hc.create', $report->id) }}"><i class="fas fa-file-medical"></i><span>Historia Clinica</span></a>
               <a href="{{ route('hc.show', $report->id) }}"><i class="fas fa-book-medical"></i><span>Expediente</span></a>

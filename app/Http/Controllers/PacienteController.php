@@ -87,7 +87,6 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
-
         $pacientes = new Paciente();
         $pacientes->nombre = $request->nombre;
         $pacientes->fechaNacimiento = $request->fecha_nacimiento;

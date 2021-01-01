@@ -26,6 +26,7 @@
     "dependencies": {
         "materialize-css": "^1.0.0-rc.2",
         "signature_pad": "^3.0.0-beta.3",
+        "tippy.js": "^6.2.7",
         "vue-sweetalert2": "^3.0.8"
     }
 }

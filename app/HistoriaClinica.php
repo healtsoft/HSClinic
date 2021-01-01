@@ -12,6 +12,11 @@ class HistoriaClinica extends Model
         return $this->belongsTo(Paciente::class, 'idPaciente'); // FK de esta tabla
     }
 
+    public function dolor()
+    {
+        return $this->hasMany(Dolor::class, 'idPaciente'); // FK de esta tabla
+    }
+
     public function datosPatologicos()
     {
         return $this->hasOne(DatosPatologico::class, 'idPatologicos'); // FK de esta tabla

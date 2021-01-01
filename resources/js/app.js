@@ -5,6 +5,7 @@
  */
 import VueSweetalert2 from 'vue-sweetalert2';
 
+import tippy from 'tippy.js';
 
 require('./bootstrap');
 

@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     $('#start_date').val(year+'-'+month+'-'+day);
                     $('#start_time').val('12:00');
                     $('#end_date').val(year+'-'+month+'-'+day);
-                    $('#end_time').val('01:00');
+                    $('#end_time').val('12:45');
 
                     // Show hide footer buttons
                     $("#btnAdd").show();

@@ -42,6 +42,11 @@ class Paciente extends Model
         return $this->hasMany(HistoriaClinica::class, 'idPaciente');
     }
 
+    public function dolors()
+    {
+        return $this->hasMany(Dolor::class, 'idPaciente');
+    }
+
     public function eventos()
     {
         return $this->hasMany(Event::class, 'idPaciente');

@@ -14,9 +14,11 @@ class DolorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Paciente $paciente)
     {
-        //
+        return view('paciente.dolor', [
+            'report' => $paciente
+        ]);
     }
 
     /**
@@ -39,6 +41,7 @@ class DolorController extends Controller
     {
         $dolor = new Dolor();
         $dolor->nivelDolor = $request->get('dolor');
+        $dolor->zonaDolor = $request->get('zona');
         $dolor->idPaciente = $paciente->id;
         $dolor->save();
         //$data = request();

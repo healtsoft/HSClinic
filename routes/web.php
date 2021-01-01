@@ -40,6 +40,8 @@ Route::post('/paciente/{paciente}/historia_clinica/create', 'HistoriaClinicaCont
 
 Route::get('/paciente/{paciente}/expediente/show', 'HistoriaClinicaController@show')->name('hc.show');
 
+Route::get('/paciente/{paciente}/dolor/create', 'DolorController@index')->name('dolor.show');
+
 Route::get('/paciente/{paciente}', 'PacienteController@show')->name('paciente.show');
 
 Route::get('/buscar', 'PacienteController@search')->name('buscar.show');
