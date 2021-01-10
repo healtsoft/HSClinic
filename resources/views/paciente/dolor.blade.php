@@ -3,7 +3,8 @@
 @section('content')
     <div class="content">
         <div class="colback fondob">
-            <h2 class="text-center mb-5">Registro de Dolor</h2> <h2 class="text-center mb-5">Ver niveles Dolor</h2>
+            <h2 class="text-center col-md-6">Registro de Dolor</h2> 
+            <h2 class="text-center col-md-6">Ver niveles Dolor</h2>
                 <div id="template" style="display: none;">
                     <form method="POST" action="/paciente/{{ $report->id }}/dolor" enctype="multipart/form-data">
                         <div class="modal-body">
@@ -114,6 +115,80 @@
                         </div>
                     </div>
                     <div class="col">
+                        <div class="row">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/cara0.png" 
+                            width="132" height="140" style="margin-left: 264px">
+                        </div>
+                        <div class="row">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/cuelloD.png" 
+                            width="110" height="60" style="margin-left: 220px">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/cuelloI.png" 
+                            width="110" height="60">
+                        </div>
+                        <div class="row">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/deltI.png" 
+                            width="60" height="100" style="margin-left: 160px">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/pecMI.png" 
+                            width="110" height="100">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/pecMD.png" 
+                            width="110" height="100">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/deltD.png" 
+                            width="60" height="100">
+                        </div>
+                        <div class="row">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/brazoI.png" 
+                            width="80" height="100" style="margin-left: 140px">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/absI.png" 
+                            width="110" height="100">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/absD.png" 
+                            width="110" height="100">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/brazoID.png" 
+                            width="80" height="100">
+                        </div>
+                        <div class="row">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/antebrazoD.png" 
+                            width="100" height="120" style="margin-left: 110px">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/absinfI.png" 
+                            width="110" height="120" style="margin-left: 6px">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/absinfD.png" 
+                            width="122" height="120">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/antebrazoI.png" 
+                            width="95" height="120">
+                        </div>
+                        <div class="row">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/manoD.png" 
+                            width="100" height="120" style="margin-left: 60px">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/muslosupI.png" 
+                            width="160" height="120" style="margin-left: 0px">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/muslosupD.png" 
+                            width="164" height="120">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/manoI.png" 
+                            width="110" height="120">
+                        </div>
+                        <div class="row">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/musloinfI.png" 
+                            width="124" height="120" style="margin-left: 196px">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/musloinfD.png" 
+                            width="124" height="120">
+                        </div>
+                        <div class="row">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/rodillaI.png" 
+                            width="108" height="120" style="margin-left: 212px">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/rodillaD.png" 
+                            width="108" height="120" style="margin-left: 1px">
+                        </div>
+                        <div class="row">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/piernaI.png" 
+                            width="100" height="160" style="margin-left: 220px">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/piernaD.png" 
+                            width="100" height="160" style="margin-left: 4px">
+                        </div>
+                        <div class="row">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/pieI.png" 
+                            width="85" height="100" style="margin-left: 240px">
+                            <input type="image" id="panel" name="panel" src="/images/cuerpo/pieD.png" 
+                            width="90" height="100" style="margin-left: 2px">
+                        </div>
                     </div>
                 </div>
                 

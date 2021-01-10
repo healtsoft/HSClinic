@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Paciente;
+use App\Pregunta;
 use App\Servicio;
 use Carbon\Carbon;
+use Hamcrest\Core\HasToString;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -129,14 +131,14 @@ class ServicioController extends Controller
                 ->join('servicios', 'servicios.id', '=', 'events.title')
                 ->distinct('events.start')
                 ->get();
-        
+
         $g2 = Event::select('servicios.servicio as title', 'events.start as fech')
                 ->join('users', 'events.idEspecialista', '=', 'users.id')
                 ->join('servicios', 'servicios.id', '=', 'events.title')
                 ->where('servicios.servicio', '=', 'Fisioterapia Dermatofuncional')
                 ->distinct('events.start')
                 ->get();
-                
+
         $Total = DB::table('events')
                 ->join('users', 'events.idEspecialista', '=', 'users.id')
                 ->join('servicios', 'servicios.id', '=', 'events.title')
@@ -160,7 +162,7 @@ class ServicioController extends Controller
                 ->distinct('servicios.servicio')
                 ->groupBy('servicios.id')
                 ->get();
-                
+
         $events = Event::select('servicios.servicio as title','servicios.costo as costo','pacientes.nombre as nombrePaciente','users.name as nombreEspecialista',DB::raw("DATE_FORMAT(events.start,'%d/%m/%Y')as Fecha"))
                 ->join('pacientes', 'events.idPaciente', '=', 'pacientes.id')
                 ->join('users', 'events.idEspecialista', '=', 'users.id')
@@ -202,14 +204,14 @@ class ServicioController extends Controller
                 ->join('servicios', 'servicios.id', '=', 'events.title')
                 ->distinct('events.start')
                 ->get();
-        
+
         $g2 = Event::select('servicios.servicio as title', 'events.start as fech')
                 ->join('users', 'events.idEspecialista', '=', 'users.id')
                 ->join('servicios', 'servicios.id', '=', 'events.title')
                 ->where('servicios.servicio', '=', 'Fisioterapia Dermatofuncional')
                 ->distinct('events.start')
                 ->get();
-                
+
         $Total = DB::table('events')
                 ->join('users', 'events.idEspecialista', '=', 'users.id')
                 ->join('servicios', 'servicios.id', '=', 'events.title')
@@ -233,7 +235,7 @@ class ServicioController extends Controller
                 ->distinct('servicios.servicio')
                 ->groupBy('servicios.id')
                 ->get();
-                
+
         $events = Event::select('servicios.servicio as title','servicios.costo as costo','pacientes.nombre as nombrePaciente','users.name as nombreEspecialista',DB::raw("DATE_FORMAT(events.start,'%d/%m/%Y')as Fecha"))
                 ->join('pacientes', 'events.idPaciente', '=', 'pacientes.id')
                 ->join('users', 'events.idEspecialista', '=', 'users.id')
@@ -280,6 +282,26 @@ class ServicioController extends Controller
         return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
     }
 
+    public function storeP(Request $request)
+    {
+        $data = request();
+        $datos_a_insertar = array();
+        $datos_a_insertar2 = array();
+        $datos = array();
+        foreach ($request->pregunta as $key => $sport)
+        {
+            $datos_a_insertar[$key]['pregunta'] = $sport;
+            $datos_a_insertar2[$key]['respuesta'] = $request->respuesta[$key];
+            $datos[$key]['pregunta'] = $sport;
+            $datos[$key]['respuesta'] = $request->respuesta[$key];
+            $datos[$key]['idHC'] = $request->idHC;
+        }
+        DB::table('preguntas')->insert($datos);
+
+
+        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
+    }
+
     /**
      * Display the specified resource.
      *
@@ -288,7 +310,14 @@ class ServicioController extends Controller
      */
     public function show(Servicio $servicio)
     {
-        //
+        $usuario = auth()->user();
+
+        // Recetas con paginación
+        $servicios = Servicio::all();
+
+        return view('adminlte.index')
+            ->with('servicios', $servicios)
+            ->with('usuario', $usuario);
     }
 
     /**
@@ -324,7 +353,7 @@ class ServicioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Servicio $servicio)
-    {   
+    {
         $servicio->delete();
 
         return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');

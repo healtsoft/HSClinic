@@ -197,7 +197,6 @@
                 "%20le%20recuerda%20su%20cita%20con%20fecha%20" + f + "%20a%20las%20" + h + "%20hrs");
             //alert(x + n);
         }
-
     </script>
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>

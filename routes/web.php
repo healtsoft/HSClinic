@@ -16,6 +16,8 @@ Route::get('storage-link', function(){
 	return Artisan::call('storage:link');
 });
 
+
+
 Route::get('/', 'EventsController@index')->middleware('auth');
 
 Auth::routes();
@@ -23,6 +25,8 @@ Auth::routes();
 Route::get('/paciente', 'PacienteController@index')->name('paciente.index');
 
 Route::get('/admin', 'ServicioController@index')->name('admin.index');
+
+Route::get('/panel', 'ServicioController@show')->name('admin.lte');
 
 Route::get('/admin/users', 'ServicioController@showUser')->name('admin.showUser');
 
@@ -67,6 +71,8 @@ Route::post('/admin/update/{user}', 'PacienteController@updateUser');
 Route::delete('/paciente/delete/{paciente}', 'PacienteController@destroy');
 
 Route::post('/admin/servicio', 'ServicioController@store');
+
+Route::post('/admin/hcn', 'ServicioController@storeP');
 
 Route::get('/admin/ingresos', 'ServicioController@ingresos')->name('admin.ingreso');
 

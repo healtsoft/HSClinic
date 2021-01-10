@@ -146,6 +146,7 @@
                         div.style.display = 'none';
                     }
                 </script>
+                
                 <div id="curve_chart2" style="width: 1200px; height: 500px"></div>
                 <div id="curve_chart3" style="width: 1200px; height: 500px"></div>
                 <div id="curve_chart4" style="width: 1200px; height: 500px"></div>

@@ -55,6 +55,9 @@
                                     <a class="fons btn btn-primary mr-2 text-white navbar-brand" href="{{ route('admin.index') }}">
                                         Administrador
                                     </a>
+                                    <a class="fons btn btn-primary mr-2 text-white navbar-brand" href="{{ route('admin.lte') }}">
+                                        Administrador 2
+                                    </a>
                                 @endif
                                 <a href="#" class="fons btn btn-primary mr-2 text-white navbar-brand" data-toggle="modal" data-target="#createPx">
                                     Crear Paciente

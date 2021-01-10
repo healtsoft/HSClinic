@@ -2,21 +2,22 @@ document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     const template = document.getElementById('template');
     var eventstart = 0;
-    
-    
+
+
     let popperInstance = null;
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        
+
         locale: 'es',
         editable: true,
         selectable: true,
+        default: false,
 
         // Setting plugins
         plugins: [ 'dayGrid', 'interaction', 'timeGrid', 'list', 'bootstrap' ],
-        
+
         //defaultDate: new Date(2019,8,1),
-        //defaultView: 'timeGridDay',
+        //defaultView: 'timeGridWeek',
 
         businessHours: [ // specify an array instead
             {
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Getting events from server
         events: url_show,
-        
+
         // Setting buttons texts
         buttonText: {
             today:    'Today',
@@ -72,14 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     cleanForm();
 
                     // Enable star date field
-                    $('#start_date').prop('disabled', false);
+                    $('#start_date').prop('enabled', false);
 
                     // Setting date and time
                     var date = new Date();
                     var year = date.getFullYear();
                     var month = (date.getMonth()+1);
                     var day = date.getDate();
-                    
+
                     month = (month<10)?"0"+month:month;
                     day = (day<10)?"0"+day:day;
 
@@ -114,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#start_time').val('12:00');
             $('#end_date').val(info.dateStr);
             $('#end_time').val('12:45');
-            
+
             // Show hide footer buttons
             $("#btnAdd").show();
             $("#btnConf").hide();
@@ -122,23 +123,26 @@ document.addEventListener('DOMContentLoaded', function() {
             $("#btnDelete").hide();
 
             var f = new Date();
-            var f2 = f.getDate() > 9 ? (f.getFullYear() + "-" + (f.getMonth() +1) + "-" + f.getDate()) : (f.getFullYear() + "-" + (f.getMonth() +1) + "-0" + f.getDate());
+            var year = f.getFullYear();
+            var month = f.getMonth() < 10 ? "0" + (f.getMonth() + 1):(f.getMonth() + 1);
+            var day = f.getDate() <10 ? "0" + f.getDate():f.getDate();
+            var f2 = year +"-"+ month +"-"+ day;
             if ($('#start_date').val() < f2) {
-                alert("No se pueden agregar eventos en una fecha anterior a la actual");
+                alert("No se pueden editar citas que ya pasaron");
             }
             else{
                 // Show form modal
                 $('#eventModal').modal();
-                
+
                 //calendar.addEvent({ title: "Evento X", date:info.dateStr });
             }
-            
+
         },
 
         eventMouseout: function (info) {
             //$('#eventModal2').modal('toggle');
         },
-        
+
         eventMouseEnter: function (info) {
             start_month = (info.event.start.getMonth()+1);
 			start_day = info.event.start.getDate();
@@ -150,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			start_day = (start_day<10)?"0"+start_day:start_day;
 			start_hours = (start_hours<10)?"0"+start_hours:start_hours;
 			start_minutes = (start_minutes<10)?"0"+start_minutes:start_minutes;
-            
+
             // Getting end date and time
 			end_month = (info.event.end.getMonth()+1);
 			end_day = info.event.end.getDate();
@@ -162,14 +166,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			end_day = (end_day<10)?"0"+end_day:end_day;
 			end_hours = (end_hours<10)?"0"+end_hours:end_hours;
             end_minutes = (end_minutes<10)?"0"+end_minutes:end_minutes;
-            
-            
+
+
             //alert("No se pueden editar citas que ya pasaron");
             // setting date and time
 			$('#id').val(info.event.id),
             $('#title').val(info.event.title),
-            $('#paciente').val(info.event.extendedProps.paciente),    
-            $('#terapeuta').val(info.event.extendedProps.terapeuta),               
+            $('#paciente').val(info.event.extendedProps.paciente),
+            $('#terapeuta').val(info.event.extendedProps.terapeuta),
             $('#start_date').val(start_year+"-"+start_month+"-"+start_day),
             $('#start_time').val(start_hours+":"+start_minutes),
             $('#end_date').val(end_year+"-"+end_month+"-"+end_day),
@@ -179,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#estatus').val(info.event.extendedProps.estatus);
 
             eventstart = start_year+"-"+start_month+"-"+start_day;
-            
+
             //$('#eventModal2').modal();
         },
 
@@ -197,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			start_day = (start_day<10)?"0"+start_day:start_day;
 			start_hours = (start_hours<10)?"0"+start_hours:start_hours;
 			start_minutes = (start_minutes<10)?"0"+start_minutes:start_minutes;
-            
+
             // Getting end date and time
 			end_month = (info.event.end.getMonth()+1);
 			end_day = info.event.end.getDate();
@@ -209,14 +213,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			end_day = (end_day<10)?"0"+end_day:end_day;
 			end_hours = (end_hours<10)?"0"+end_hours:end_hours;
             end_minutes = (end_minutes<10)?"0"+end_minutes:end_minutes;
-            
-            
+
+
             //alert("No se pueden editar citas que ya pasaron");
             // setting date and time
 			$('#id').val(info.event.id),
             $('#title').val(info.event.title),
-            $('#paciente').val(info.event.extendedProps.paciente),    
-            $('#terapeuta').val(info.event.extendedProps.terapeuta),               
+            $('#paciente').val(info.event.extendedProps.paciente),
+            $('#terapeuta').val(info.event.extendedProps.terapeuta),
             $('#start_date').val(start_year+"-"+start_month+"-"+start_day),
             $('#start_time').val(start_hours+":"+start_minutes),
             $('#end_date').val(end_year+"-"+end_month+"-"+end_day),
@@ -226,7 +230,10 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#estatus').val(info.event.extendedProps.estatus);
 
             var f = new Date();
-            var f2 = f.getDate() > 9 ? (f.getFullYear() + "-" + (f.getMonth() +1) + "-" + f.getDate()) : (f.getFullYear() + "-" + (f.getMonth() +1) + "-0" + f.getDate());
+            var year = f.getFullYear();
+            var month = f.getMonth() < 10 ? "0" + (f.getMonth() + 1):(f.getMonth() + 1);
+            var day = f.getDate() <10 ? "0" + f.getDate():f.getDate();
+            var f2 = year +"-"+ month +"-"+ day;
             if (eventstart < f2) {
                 alert("No se pueden editar citas que ya pasaron");
                 info.revert();
@@ -251,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			start_day = (start_day<10)?"0"+start_day:start_day;
 			start_hours = (start_hours<10)?"0"+start_hours:start_hours;
 			start_minutes = (start_minutes<10)?"0"+start_minutes:start_minutes;
-            
+
             // Getting end date and time
 			end_month = (info.event.end.getMonth()+1);
 			end_day = info.event.end.getDate();
@@ -263,14 +270,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			end_day = (end_day<10)?"0"+end_day:end_day;
 			end_hours = (end_hours<10)?"0"+end_hours:end_hours;
             end_minutes = (end_minutes<10)?"0"+end_minutes:end_minutes;
-            
+
             // setting date and time
 			$('#id').val(info.event.id),
             $('#title').val(info.event.extendedProps.idPaciente + " - " + info.event.title),
             $('#paciente').val(info.event.extendedProps.idServicio + " - " + info.event.extendedProps.nombrePaciente),
             $('#telpx').val(info.event.extendedProps.telPaciente),
-            $('#nomEsp').val(info.event.extendedProps.nomEsp),   
-            $('#terapeuta').val(info.event.extendedProps.idEsp + " - " + info.event.extendedProps.nombreEspecialista),               
+            $('#nomEsp').val(info.event.extendedProps.nomEsp),
+            $('#terapeuta').val(info.event.extendedProps.idEsp + " - " + info.event.extendedProps.nombreEspecialista),
             $('#start_date').val(start_year+"-"+start_month+"-"+start_day),
             $('#start_time').val(start_hours+":"+start_minutes),
             $('#end_date').val(end_year+"-"+end_month+"-"+end_day),
@@ -280,9 +287,12 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#estatus').val(info.event.extendedProps.estatus);
 
             var f = new Date();
-            var f2 = f.getDate() > 9 ? (f.getFullYear() + "-" + (f.getMonth() +1) + "-" + f.getDate()) : (f.getFullYear() + "-" + (f.getMonth() +1) + "-0" + f.getDate());
+            var year = f.getFullYear();
+            var month = f.getMonth() < 10 ? "0" + (f.getMonth() + 1):(f.getMonth() + 1);
+            var day = f.getDate() <10 ? "0" + f.getDate():f.getDate();
+            var f2 = year +"-"+ month +"-"+ day;
             if ($('#start_date').val() < f2) {
-                
+
 			$("#btnAdd").hide();
 			$("#btnEdit").hide();
             $("#btnDelete").hide();
@@ -300,10 +310,10 @@ document.addEventListener('DOMContentLoaded', function() {
         },
 
         eventRender: function(info) {
-        
+
             var foto = info.event.extendedProps.fotoPx != null && info.event.extendedProps.fotoPx != "" ? '<img src="../storage/'+info.event.extendedProps.fotoPx+'" width="100" height="100">' +"<br>" : '<img src="/storage/upload-foto/upload-foto/waBT3FddM3HUPI40v5KLPG4foQ1aI1rNsBTGhIbh.jpeg.jpeg" width="100" height="100">' +"<br>";
             tippy(info.el, {
-                content: 
+                content:
                 foto +
                 "Paciente: " + info.event.title + '<br>'
                 + "Servicio: " + info.event.extendedProps.nombrePaciente + '<br>'
@@ -323,13 +333,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Rendering calendar
     calendar.render();
 
-    
+
     // Config add actions
     $('#btnAdd').click(function() {
         eventObj = getFormEventData("POST");
         sendInfoEvent('', eventObj);
 	})
-    
+
     // Config edit actions
 	$('#btnEdit').click(function() {
         eventObj = getFormEventData("PATCH");
@@ -362,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 '_method': method
             }
 
-            return newEventObj;            
+            return newEventObj;
         } else {
             return
         }
@@ -386,10 +396,13 @@ document.addEventListener('DOMContentLoaded', function() {
         );
     }
 
-    // Validate date and time    
+    // Validate date and time
     function validateDate(){
         var f = new Date();
-        var f3 = f.getDate() > 9 ? (f.getFullYear() + "-" + (f.getMonth() +1) + "-" + f.getDate()) : (f.getFullYear() + "-" + (f.getMonth() +1) + "-0" + f.getDate());
+        var year = f.getFullYear();
+        var month = f.getMonth() < 10 ? "0" + (f.getMonth() + 1):(f.getMonth() + 1);
+        var day = f.getDate() <10 ? "0" + f.getDate():f.getDate();
+        var f3 = year +"-"+ month +"-"+ day;
         var f2 = f.getHours() + ":" + f.getMinutes();
         if (($('#start_date').val() === $('#end_date').val())
             && ($('#start_time').val() > $('#end_time').val())) {
@@ -419,3 +432,4 @@ document.addEventListener('DOMContentLoaded', function() {
 		$('#end_time').val("")
 	}
 });
+
