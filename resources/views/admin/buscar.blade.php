@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.lte')
 
 @section('content')
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -20,20 +20,20 @@
                         var contenido= document.getElementById(areaImprimir).innerHTML;
                         div.style.display = 'none';
                         var contenidoOriginal= document.body.innerHTML;
-                        
+
                         document.body.innerHTML = contenido;
 
                         window.print();
-                        
+
                         document.body.innerHTML = contenidoOriginal;
-                        
+
                     }
                 </script>
                 <form class="container h-100" action={{ route('buscar.admin') }}>
                     <div class="row h-100 align-items-center">
-                        <div class="col-md-12 texto-buscar">
-                            <h2 class="divle">Buscar Ingresos por Fecha</h2>
-                            <input type="date" max="{{$fc}}" value="{{$fc}}" name="buscar" class="form-control" placeholder="Buscar" />
+                        <div class="col-md-6">
+                            <h2 class="divle">Buscar Ingresos por Fecha: </h2><br>
+                            <input type="date" max="{{$fc}}" value="{{$fc}}" name="buscar" class="" placeholder="Buscar" />
                             <input type="submit" class="btn btn-primary" value="Buscar">
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                     @foreach($fech as $f)
                         <h1 class="centext">Ingresos del {{$f->Fecha}}</h1>
                     @endforeach
-                    
+
                     <table class="table">
                         <thead class="">
                             <tr>
@@ -61,17 +61,17 @@
                         </thead>
                         <tbody>
                             @foreach ($events as $citas)
-                                
+
                                 <tr class="centext">
                                     <td class="centext" scole="col">{{ $citas->title }}</td>
                                     <td class="centext" scole="col">${{ $citas->costo }}</td>
                                     <td class="centext" scole="col">{{ $citas->nombrePaciente }}</td>
                                     <td class="centext" scole="col">{{ $citas->nombreEspecialista }}</td>
                                 </tr>
-                                
+
                             @endforeach
                         </tbody>
-                        
+
                     </table>
                     <br>
                     <br>

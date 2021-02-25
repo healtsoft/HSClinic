@@ -1,0 +1,176 @@
+.divde {
+    float: right !important;
+    margin-top: auto;
+}
+
+.divle {
+    float: left !important;
+}
+
+.pa{
+    overflow: hidden;
+	width: 100%;
+}
+
+.hi{
+    float: left;
+}
+
+.divd{
+	padding: 15px 0;
+	margin: 0;
+}
+
+.padre {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hijo {
+    padding: 10px;
+    margin: 25px;
+}
+
+.mmiddle {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.colorWhite{
+    color: white !important;
+}
+
+.fondoWhite{
+    background-color: white !important;
+}
+
+.colorBlue{
+    background-color: #17A2B8;
+}
+
+.colorYellow{
+    background-color: #FFC107;
+}
+
+.colorGreen{
+    background-color: #28A745;
+}
+
+.colorGreenLi{
+    background-color: #D4FFDA;
+}
+
+.colorRed{
+    background-color: #DC3545;
+}
+
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+    width: 30%;
+}
+
+.card2 {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+    width: 100%;
+}
+
+.cardlog {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 20px; /* 5px rounded corners */
+    width: 90%;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+    padding: 2px 16px;
+}
+
+.mlat {
+    margin-right: 15px;
+    margin-left: 15px;
+    ;
+}
+
+.mdown {
+    margin-bottom: 15px;
+    ;
+}
+
+.mleft {
+    margin-left: 70px;
+    ;
+}
+
+.mlefttab {
+    margin-left: 30px;
+    ;
+}
+
+.mrigth {
+    margin-right: 5px;
+    ;
+}
+
+.mup {
+    margin-top: 15px;
+}
+
+.bordertable {
+    border-radius: 45px;
+}
+
+
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.centext {
+    text-align: center !important;
+}
+
+.sizetxpx {
+    font-size: 20px;
+}
+
+textarea {
+    resize: both;
+  }
+
+.buscar {
+    padding: 0.25rem 0.5rem;
+    font-size: 4rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cuerpopx{
+    position: static!important;
+}
+
+.textleft{
+    text-align: left!important;
+}
+
+.textRig{
+    text-align: right!important;
+}
+

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.lte')
 
 @section('content')
     <div class="content fondob">

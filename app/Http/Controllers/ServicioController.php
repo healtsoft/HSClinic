@@ -320,6 +320,18 @@ class ServicioController extends Controller
             ->with('usuario', $usuario);
     }
 
+    public function showCal(Servicio $servicio)
+    {
+        $usuario = auth()->user();
+
+        // Recetas con paginación
+        $servicios = Servicio::all();
+
+        return view('adminlte.calendar')
+            ->with('servicios', $servicios)
+            ->with('usuario', $usuario);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

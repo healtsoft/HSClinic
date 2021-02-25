@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.lte')
 
 @section('content')
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -20,11 +20,11 @@
                         var contenido= document.getElementById(areaImprimir).innerHTML;
                         div.style.display = 'none';
                         var contenidoOriginal= document.body.innerHTML;
-                        
+
                         document.body.innerHTML = contenido;
 
                         window.print();
-                        
+
                         document.body.innerHTML = contenidoOriginal;
                     }
 
@@ -32,13 +32,13 @@
                         var inicio = Date.now();
                         $("#buscar").val(inicio);
                     }
-                    
+
                 </script>
                 <form class="container h-100" action={{ route('buscar.admin') }}>
                     <div class="row h-100 align-items-center">
-                        <div class="col-md-12 texto-buscar">
-                            <h2 class="divle">Buscar Ingresos por Fecha</h2>
-                            <input type="date" max="{{$fc}}" value="{{$fc}}" id="buscar" name="buscar" class="form-control" placeholder="Buscar" />
+                        <div class="col-md-12">
+                            <h2 class="divle">Buscar Ingresos por Fecha: </h2><br>
+                            <input type="date" max="{{$fc}}" value="{{$fc}}" id="buscar" name="buscar" class="" placeholder="Buscar" />
                             <input type="submit" class="btn btn-primary" value="Buscar">
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                         </thead>
                         <tbody>
                             @foreach ($events as $citas)
-                                
+
                                 <tr class="centext">
                                     <td class="centext" scole="col">{{ $citas->title }}</td>
                                     <td class="centext" scole="col">${{ $citas->costo }}</td>
@@ -72,10 +72,10 @@
                                     <td class="centext" scole="col">{{ $citas->nombreEspecialista }}</td>
                                     <td class="centext" scole="col">{{ $citas->Fecha }}</td>
                                 </tr>
-                                
+
                             @endforeach
                         </tbody>
-                        
+
                     </table>
                     <br>
                     <br>
@@ -83,7 +83,7 @@
                     <h1>Total: ${{$c}} MXN</h1>
                 </div>
                 <input class="btn btn-primary" type="button" onclick="printDiv('areaImprimir')" value="Imprimir Ticket" />
-                
+
                 <hr>
                 <br>
                 <br>
@@ -94,6 +94,7 @@
                             <h1 class="divle">Buscar Ingresos por rango de fechas</h1>
                             <input type="date" value="{{$fc}}" id="buscar" name="buscar" class="form-control col-md-6 divle" placeholder="Buscar" />
                             <input type="date" value="{{$fc}}" id="buscar2" name="buscar2" class="form-control col-md-6" placeholder="Buscar" />
+                            <br>
                             <input type="submit" class="btn btn-primary" value="Buscar">
                         </div>
                     </div>
@@ -119,7 +120,7 @@
                         </thead>
                         <tbody>
                             @foreach ($events as $citas)
-                                
+
                                 <tr class="centext">
                                     <td class="centext" scole="col">{{ $citas->title }}</td>
                                     <td class="centext" scole="col">${{ $citas->costo }}</td>
@@ -127,10 +128,10 @@
                                     <td class="centext" scole="col">{{ $citas->nombreEspecialista }}</td>
                                     <td class="centext" scole="col">{{ $citas->Fecha }}</td>
                                 </tr>
-                                
+
                             @endforeach
                         </tbody>
-                        
+
                     </table>
                     <br>
                     <br>

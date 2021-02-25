@@ -338,3 +338,12 @@
 
   }
 })(jQuery, $.AdminLTE);
+
+import VueSweetalert2 from 'vue-sweetalert2';
+
+window.Vue = require('vue');
+
+Vue.use(VueSweetalert2);
+Vue.component('eliminar-paciente', require('./components/EliminarPaciente.vue').default);
+Vue.component('eliminar-servicio', require('./components/EliminarServicio.vue').default);
+Vue.component('eliminar-usuario', require('./components/EliminarUsuario.vue').default);

@@ -28,6 +28,8 @@ Route::get('/admin', 'ServicioController@index')->name('admin.index');
 
 Route::get('/panel', 'ServicioController@show')->name('admin.lte');
 
+Route::get('/panel/agenda', 'ServicioController@showCal')->name('admin.lteCal');
+
 Route::get('/admin/users', 'ServicioController@showUser')->name('admin.showUser');
 
 Route::get('/paciente/create', 'PacienteController@create')->name('paciente.create');

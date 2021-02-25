@@ -38,16 +38,16 @@ class EventsController extends Controller
             ;
 
         $exist = true;
-        
+
         if (count($pacientes) > 0) {
-            return view('events.index')
+            return view('adminlte.calendar')
                 ->with('pacientes', $pacientes)
                 ->with('exist', $exist)
                 ->with('usuarios', $usuarios)
                 ->with('servicios', $servicios);
         } else {
             $exist = false;
-            return view('events.index')
+            return view('adminlte.calendar')
                 ->with('pacientes', $pacientes)
                 ->with('exist', $exist)
                 ->with('usuarios', $usuarios)
@@ -73,7 +73,7 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $idServicio = request()->get('paciente');
         $idPaciente = request()->get('title');
         $idTerapeuta = request()->get('terapeuta');
@@ -84,9 +84,9 @@ class EventsController extends Controller
         $start = (request()->get('start'));
         $end = (request()->get('end'));
 
-        $idServicio = intval(preg_replace('/[^0-9]+/', '', $idServicio), 10); 
-        $idPaciente = intval(preg_replace('/[^0-9]+/', '', $idPaciente), 10); 
-        $idTerapeuta = intval(preg_replace('/[^0-9]+/', '', $idTerapeuta), 10); 
+        $idServicio = intval(preg_replace('/[^0-9]+/', '', $idServicio), 10);
+        $idPaciente = intval(preg_replace('/[^0-9]+/', '', $idPaciente), 10);
+        $idTerapeuta = intval(preg_replace('/[^0-9]+/', '', $idTerapeuta), 10);
 
         $start2 = Carbon::parse($start)->timestamp;
         $end2 = Carbon::parse($end)->timestamp;
@@ -133,7 +133,7 @@ class EventsController extends Controller
         }
 
         return $events;
-        
+
     }
 
     /**
@@ -167,15 +167,15 @@ class EventsController extends Controller
         $textColor = request()->get('textColor');
         $start = (request()->get('start'));
         $end = (request()->get('end'));
-        
-        $idServicio = intval(preg_replace('/[^0-9]+/', '', $idServicio), 10); 
-        $idPaciente = intval(preg_replace('/[^0-9]+/', '', $idPaciente), 10); 
-        $idTerapeuta = intval(preg_replace('/[^0-9]+/', '', $idTerapeuta), 10); 
+
+        $idServicio = intval(preg_replace('/[^0-9]+/', '', $idServicio), 10);
+        $idPaciente = intval(preg_replace('/[^0-9]+/', '', $idPaciente), 10);
+        $idTerapeuta = intval(preg_replace('/[^0-9]+/', '', $idTerapeuta), 10);
 
         $datosEvento = ['title' => $idServicio, 'idPaciente' => $idPaciente,'idEspecialista' => $idTerapeuta,'description' => $description,'color' => $color,'textColor' => $textColor,'start' => $start,'end' => $end, 'estatus' => $estatus];
 
         $respuesta = Event::where('id',$id)->update($datosEvento);
-        
+
         return response()->json($respuesta);
     }
 

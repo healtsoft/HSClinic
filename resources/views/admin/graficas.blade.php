@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.lte')
 
 @section('content')
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -20,11 +20,11 @@
                         var contenido= document.getElementById(areaImprimir).innerHTML;
                         div.style.display = 'none';
                         var contenidoOriginal= document.body.innerHTML;
-                        
+
                         document.body.innerHTML = contenido;
 
                         window.print();
-                        
+
                         document.body.innerHTML = contenidoOriginal;
                     }
 
@@ -32,18 +32,18 @@
                         var inicio = Date.now();
                         $("#buscar").val(inicio);
                     }
-                    
+
                 </script>
                 <div id="areaImprimir">
-                    
+
                 </div>
                 {{-- <input class="btn btn-primary" type="button" onclick="printDiv('areaImprimir')" value="Imprimir Ticket" />
-                
+
                 <input class="btn btn-primary" type="button" onclick="mostrar()" value="Ver Grafica 1" /> --}}
                 <script type="text/javascript">
                     google.charts.load('current', {'packages':['corechart']});
                     google.charts.setOnLoadCallback(drawChart);
-            
+
                     function drawChart() {
                       var data = google.visualization.arrayToDataTable([
                         ['Fecha', 'Ingreso'],
@@ -51,22 +51,22 @@
                         ['{{ $citas->fech }}',  {{ $citas->costo }}],
                         @endforeach
                       ]);
-            
+
                       var options = {
                         title: 'Ingresos segun Fecha',
                         curveType: 'function',
                         legend: { position: 'bottom' }
                       };
-            
+
                       var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart2'));
-            
+
                       chart.draw(data, options);
                     }
                 </script>
                 <script type="text/javascript">
                     google.charts.load('current', {'packages':['corechart']});
                     google.charts.setOnLoadCallback(drawChart);
-            
+
                     function drawChart() {
                       var data = google.visualization.arrayToDataTable([
                         ['Fecha', 'Ingreso'],
@@ -74,22 +74,22 @@
                         ['{{ $ci->Servicio }}',  {{ $ci->Total }}],
                         @endforeach
                       ]);
-            
+
                       var options = {
                         title: 'Ingresos segun Servicio',
                         curveType: 'function',
                         legend: { position: 'bottom' }
                       };
-            
+
                       var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart3'));
-            
+
                       chart.draw(data, options);
                     }
                 </script>
                 <script type="text/javascript">
                     google.charts.load('current', {'packages':['line']});
                     google.charts.setOnLoadCallback(drawChart);
-            
+
                     function drawChart() {
                       var data = google.visualization.arrayToDataTable([
                         ['Fecha', 'Ingreso'],
@@ -97,7 +97,7 @@
                         ['{{ $ci->Servicio }}',  {{ $ci->Total }}],
                         @endforeach
                       ]);
-            
+
                       var options = {
                         chart: {
                             title: 'Servicio mas Solicitado en la Clinica',
@@ -106,16 +106,16 @@
                         width: 1000,
                         height: 500
                       };
-            
+
                       var chart = new google.charts.Line(document.getElementById('curve_chart4'));
-            
+
                       chart.draw(data, google.charts.Line.convertOptions(options));
                     }
                 </script>
                 <script type="text/javascript">
                     google.charts.load('current', {'packages':['corechart']});
                     google.charts.setOnLoadCallback(drawChart);
-            
+
                     function drawChart() {
                       var data = google.visualization.arrayToDataTable([
                         ['Fecha', 'Ganancias por Dia'],
@@ -123,15 +123,15 @@
                         ['{{ $ci->Fecha }}',  {{ $ci->Ganancias }}],
                         @endforeach
                       ]);
-            
+
                       var options = {
                         title: 'Ingresos Por Dia',
                         curveType: 'function',
                         legend: { position: 'bottom' }
                       };
-            
+
                       var chart = new google.visualization.LineChart(document.getElementById('curve_chart5'));
-            
+
                       chart.draw(data, options);
                     }
                 </script>
@@ -140,13 +140,13 @@
                         div = document.getElementById('g1');
                         div.style.display = '';
                     }
-            
+
                     function cerrar() {
                         div = document.getElementById('g1');
                         div.style.display = 'none';
                     }
                 </script>
-                
+
                 <div id="curve_chart2" style="width: 1200px; height: 500px"></div>
                 <div id="curve_chart3" style="width: 1200px; height: 500px"></div>
                 <div id="curve_chart4" style="width: 1200px; height: 500px"></div>

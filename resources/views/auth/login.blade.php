@@ -1,13 +1,15 @@
-@extends('layouts.app')
+@extends('layouts.log')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+        <div class="col-md-12">
+            <div class="cardlog fondoWhite">
 
-                <div class="card-body">
+                <img src="../images/logo_HealtSoft.png" width="250" height="60"><br><br>
+                <div class="">{{ __('Login') }}</div>
+
+                <div class="">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -51,7 +53,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
+                        <div class="form-group row mb-0 footer">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
