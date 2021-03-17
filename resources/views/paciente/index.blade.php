@@ -1,4 +1,4 @@
-@extends('layouts.pxin')
+@extends('layouts.lte')
 
 @section('hero')
 

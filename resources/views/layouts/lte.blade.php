@@ -295,7 +295,7 @@ desired effect
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{ route('admin.index') }}">Ver pacientes</a></li>
+              <li><a href="{{ route('paciente.index') }}">Ver pacientes</a></li>
               <li><a href="#" data-toggle="modal" data-target="#createPx">Nuevo paciente</a></li>
             </ul>
           </li>
@@ -423,6 +423,8 @@ desired effect
 <!-- REQUIRED JS SCRIPTS -->
 <!-- Scripts -->
 @yield('scripts')
+@include('paciente.createuser')
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <!-- jQuery 2.2.3 -->
 <script src="/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>

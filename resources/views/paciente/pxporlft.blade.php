@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.lte')
 
 @section('botones')
     <a href="{{ route('paciente.create') }}" class="btn btn-primary mr-2 text-white">Crear Paciente</a>

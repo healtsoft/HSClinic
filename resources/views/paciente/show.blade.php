@@ -1,4 +1,4 @@
-@extends('layouts.px')
+@extends('layouts.lte')
 
 @section('content')
 

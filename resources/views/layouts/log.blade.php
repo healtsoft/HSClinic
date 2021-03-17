@@ -249,6 +249,8 @@ desired effect
 <!-- REQUIRED JS SCRIPTS -->
 <!-- Scripts -->
 @yield('scripts')
+@include('paciente.createuser')
+
 <!-- jQuery 2.2.3 -->
 <script src="/adminlte/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
