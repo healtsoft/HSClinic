@@ -36,5 +36,5 @@
                 x--; //Decrement field counter
             });
         });
-        </script>
+    </script>
 @endsection

@@ -89,7 +89,10 @@ class NotaController extends Controller
      */
     public function update(Request $request, Nota $nota)
     {
-        //
+        $cambio = request()->only(['nota']);
+
+        $respuesta = Nota::where('id',$nota->id)->update($cambio);
+        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
     }
 
     /**

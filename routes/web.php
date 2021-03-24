@@ -68,6 +68,8 @@ Route::post('/servicio/update/{servicio}', 'ServicioController@update');
 
 Route::post('/paciente/update/{paciente}', 'PacienteController@update');
 
+Route::post('/nota/update/{nota}', 'NotaController@update');
+
 Route::post('/admin/update/{user}', 'PacienteController@updateUser');
 
 Route::delete('/paciente/delete/{paciente}', 'PacienteController@destroy');

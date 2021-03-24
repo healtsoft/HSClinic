@@ -281,7 +281,7 @@ class PacienteController extends Controller
         )
             ->where('notas.idPaciente', '=', $paciente->id)
             ->orderby('created_at','DESC')
-            ->take(3)
+            ->take(6)
             ->get();
 
         $dolor = Dolor::select(

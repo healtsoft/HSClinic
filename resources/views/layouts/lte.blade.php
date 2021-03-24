@@ -19,6 +19,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Theme style -->
     <link rel="stylesheet" href="/adminlte/css/AdminLTE.min.css">
     <link rel="stylesheet" href="/adminlte/css/nuevo.css">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
 
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
             page. However, you can choose any other skin. Make sure you
@@ -432,7 +434,10 @@ desired effect
 <script src="/adminlte/bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/adminlte/js/app.min.js"></script>
+<script src="/adminlte/js/nuevo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
