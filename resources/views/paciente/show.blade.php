@@ -191,9 +191,9 @@
             <table class="table colorBlack">
                 <thead>
                     <tr>
-                        <th class="centext" colspan="1" scole="col"><img class="iconm" src="../images/otros.png" width="30" height="30">Nombre</th>
-                        <th class="centext" colspan="1" scole="col"><img class="iconm" src="../images/otros.png" width="30" height="30">Descripcion</th>
-                        <th class="centext" colspan="1" scole="col"><img class="iconm" src="../images/otros.png" width="30" height="30">Estudio</th>
+                        <th class="centext" colspan="1" scole="col"><img class="iconm mrigth" src="../images/otros.png" width="30" height="30">Nombre</th>
+                        <th class="centext" colspan="1" scole="col"><img class="iconm mrigth" src="../images/otros.png" width="30" height="30">Descripcion</th>
+                        <th class="centext" colspan="1" scole="col"><img class="iconm mrigth9+" src="../images/otros.png" width="30" height="30">Estudio</th>
                     </tr>
                 </thead>
                 @foreach ($report->estudios as $est)

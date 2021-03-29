@@ -39,26 +39,64 @@ class PacienteController extends Controller
             ->orderBy('id','desc')
             ->paginate(5);
 
+        $dp = Paciente::select(
+            'pacientes.id as PacienteId',
+            'pacientes.nombre as PacienteNombre',
+            'pacientes.fechaNacimiento as PacienteFechaNacimiento',
+            'pacientes.procedencia as PacienteProcedencia',
+            'pacientes.correo as PacienteCorreo',
+            'pacientes.telefono as PacienteTelefono',
+            'pacientes.idEspecialista as PacienteIdEspecialista',
+            'datos_personals.id as PersonalesId',
+            'datos_personals.fotoUrl as PersonalesFotoUrl',
+            'datos_personals.domicilio as PersonalesDomicilio',
+            'datos_personals.sexo as PersonalesSexo',
+            'datos_personals.estadoCivil as PersonalesEstadoCivil',
+            'datos_personals.ocupacion as PersonalesOcupacion',
+            'datos_personals.estudios as PersonalesEstudios',
+            'datos_personals.tipoSangre as PersonalesTipoSangre'
+
+        )
+            ->join('datos_personals', 'datos_personals.idPaciente', '=', 'pacientes.id')
+            ->where('pacientes.idEspecialista', '=', $usuario->id)
+            ->orderby('pacientes.id','DESC')
+            ->get();
+
         return view('paciente.index')
             ->with('pacientes', $pacientes)
+            ->with('dp', $dp)
             ->with('usuario', $usuario);
     }
 
-    public function search(Request $request)
-    {
+    public function buscador(Request $request){
         $usuario = auth()->user();
-        // $busqueda = $request['buscar'];
-        $busqueda = $request->get('buscar');
+        $dp = Paciente::select(
+            'pacientes.id as PacienteId',
+            'pacientes.nombre as PacienteNombre',
+            'pacientes.fechaNacimiento as PacienteFechaNacimiento',
+            'pacientes.procedencia as PacienteProcedencia',
+            'pacientes.correo as PacienteCorreo',
+            'pacientes.telefono as PacienteTelefono',
+            'pacientes.idEspecialista as PacienteIdEspecialista',
+            'datos_personals.id as PersonalesId',
+            'datos_personals.fotoUrl as PersonalesFotoUrl',
+            'datos_personals.domicilio as PersonalesDomicilio',
+            'datos_personals.sexo as PersonalesSexo',
+            'datos_personals.estadoCivil as PersonalesEstadoCivil',
+            'datos_personals.ocupacion as PersonalesOcupacion',
+            'datos_personals.estudios as PersonalesEstudios',
+            'datos_personals.tipoSangre as PersonalesTipoSangre'
 
-        $pacientes = Paciente::where('idEspecialista', $usuario->id)
-            ->orderBy('created_at','desc')
-            ->where('nombre', 'like', '%' . $busqueda . '%')
-            ->paginate(5);
-        $pacientes->appends(['buscar' => $busqueda]);
-        //$events = Event::all()->toJson();
+        )
+            ->join('datos_personals', 'datos_personals.idPaciente', '=', 'pacientes.id')
+            ->where('pacientes.idEspecialista', '=', $usuario->id)
+            ->where('nombre', 'like', '%' . $request->texto . '%')
+            ->orderby('pacientes.id','DESC')
+            ->get();
 
-        return view('busquedas.show', compact('pacientes', 'busqueda'));
+        return view("busquedas.show",compact("dp"));
     }
+
 
     public function model()
     {
@@ -219,6 +257,8 @@ class PacienteController extends Controller
      */
     public function show(Paciente $paciente, Nota $nota)
     {
+        $usuario = auth()->user();
+        //dd($paciente);
         $hc = Paciente::select(
             'pacientes.id as PacienteId',
             'pacientes.nombre as PacienteNombre',
@@ -270,7 +310,7 @@ class PacienteController extends Controller
             ->join('datos_consultas', 'datos_consultas.id', '=', 'historia_clinicas.idConsulta')
             ->join('datos_ttos', 'datos_ttos.id', '=', 'historia_clinicas.idTto')
             ->where('pacientes.id', '=', $paciente->id)
-            ->orderby('historia_clinicas.created_at','DESC')
+            ->where('pacientes.idEspecialista', $usuario->id)
             ->take(1)
             ->get();
 

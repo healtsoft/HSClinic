@@ -48,7 +48,7 @@
                                 <a href="{{ url('/paciente/models') }}" class="col-md-12 btn btn-primary mr-2 text-white">Modelos Anatomicos</a>
                             </td>
                         </tr>
-                        
+
                         <tr>
                             <td>
                                 <button type="button" class="col-md-12 btn btn-primary mr-2 text-white dropdown-toggle"
@@ -66,7 +66,7 @@
                                     <li><a class="col-md-12 btn btn-primary text-white" href="#">Neurologia</a></li>
                                 </ul>
                             </td>
-                        </tr>   
+                        </tr>
                         <tr>
                             <td>
                                 <a href="#" class="col-md-12 btn btn-primary mr-2 text-white" data-toggle="modal" data-target="#create2">

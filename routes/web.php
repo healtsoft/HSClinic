@@ -50,7 +50,7 @@ Route::get('/paciente/{paciente}/dolor/create', 'DolorController@index')->name('
 
 Route::get('/paciente/{paciente}', 'PacienteController@show')->name('paciente.show');
 
-Route::get('/buscar', 'PacienteController@search')->name('buscar.show');
+Route::get('/buscar/px', 'PacienteController@buscador');
 
 Route::get('/admin/buscar', 'ServicioController@search')->name('buscar.admin');
 
