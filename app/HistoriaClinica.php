@@ -37,8 +37,5 @@ class HistoriaClinica extends Model
         return $this->hasMany(Estudio::class); // FK de esta tabla
     }
 
-    public function preguntas()
-    {
-        return $this->hasMany(Pregunta::class);
-    }
+
 }

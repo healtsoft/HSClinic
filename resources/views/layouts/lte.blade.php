@@ -83,7 +83,7 @@ desired effect
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini "><b>HS</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><img src="../images/logo_HealtSoft.png" width="170" height="40"></span>
+      <span class="logo-lg"><img src="/images/logo_HealtSoft.png" width="170" height="40"></span>
     </a>
 
     <!-- Header Navbar -->
@@ -111,7 +111,7 @@ desired effect
                     <a href="#">
                       <div class="pull-left">
                         <!-- User Image -->
-                        <img src="../adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        <img src="/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                       </div>
                       <!-- Message title and timestamp -->
                       <h4>
@@ -195,14 +195,14 @@ desired effect
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img src="../adminlte/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="/adminlte/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">{{auth()->user()->name}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="../adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
                     {{auth()->user()->name}} - Administrador
@@ -259,7 +259,7 @@ desired effect
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="../adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>{{auth()->user()->name}}</p>
@@ -281,10 +281,9 @@ desired effect
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{ route('admin.index') }}">Ver Servicios</a></li>
-              <li><a href="#" data-toggle="modal" data-target="#cservicio">Crear un servicio</a></li>
               <li><a href="{{ route('admin.ingreso') }}">Ingresos</a></li>
               <li><a href="{{ route('admin.graficas') }}">Estadisticas</a></li>
+              <li><a href="{{ route('hclinica.index') }}">Historias Clinicas</a></li>
               <li><a href="{{ route('admin.showUser') }}">Ver usuarios</a></li>
               <li><a href="#" data-toggle="modal" data-target="#createUser">Crear un usuario</a></li>
             </ul>

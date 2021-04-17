@@ -16,10 +16,10 @@
             @endforeach
         </div>
     </div>
-    <button class="tablink" onclick="openPage('Home', this, '#3C8DBC')" id="defaultOpen">Informacion</button>
+    <button class="tablink" onclick="openPage('Home', this, '#3C8DBC')" >Informacion</button>
     <button class="tablink" onclick="openPage('News', this, '#3C8DBC')">Notas</button>
     <button class="tablink" onclick="openPage('Contact', this, '#3C8DBC')">Estudios</button>
-    <button class="tablink" onclick="openPage('About', this, '#3C8DBC')">Historia Clinica</button>
+    <button class="tablink" onclick="openPage('About', this, '#3C8DBC')" id="defaultOpen">Historia Clinica</button>
     <button class="tablink" onclick="openPage('Exp', this, '#3C8DBC')">Signos Vitales</button>
 
     <div id="Home" class="tabcontent">
@@ -140,7 +140,6 @@
                     <div>
                         <h3 class="aliizq"><i class="mrigth fas fa-notes-medical"></i>Nota</h3>
                         <h3 class="alider">{{ $nota->created_at }} <a href="#" data-toggle="modal" data-target="#editNota{{ $nota->id }}" class="btn btn-dark"><img class="mlefticon" src="../images/editar.png" style="width: 25px; heigth:20px"></a></h3>
-
                         <div class="modal fade" id="editNota{{ $nota->id }}">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -196,7 +195,7 @@
                         <th class="centext" colspan="1" scole="col"><img class="iconm mrigth9+" src="../images/otros.png" width="30" height="30">Estudio</th>
                     </tr>
                 </thead>
-                @foreach ($report->estudios as $est)
+                @foreach ($estudios as $est)
                     <tr>
                         <td class="centext">{{ $est->nombre }}</td>
                         <td class="centext">{{ $est->descripcion }}</td>
@@ -230,17 +229,102 @@
 
     <div id="About" class="tabcontent">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <h1>Dashboard</h1>
-        <form method="POST" action="/admin/hcn" enctype="multipart/form-data">
+        <h3 class="aliizq colorGrey">LLenar datos de la historia clinica</h3>
+        <a class="alider" href="#" data-toggle="modal" data-target="#hcpx"><i class="btnnw">Asignar nueva Historia Clinica</i></a>
+        <br><br><br>
+        <div class="colorBlack">
+            <table class="table">
+                @foreach ($hcpxes as $historia)
+                    <div class="cardPx padre2 center divle">
+                        <div class="hijo2 col-md-12">
+                            <h1>{{ $historia->nombre }}</h1>
+                            <a href="/paciente/{{ $historia->idPaciente }}/{{ $historia->id }}/new" class="btn btnIndexPx col-md-10 mup2">Ver Preguntas</a><br>
+                            <a href="#" data-toggle="modal" data-target="#editPx{{ $historia->id }}" class="btn btnIndexPx col-md-10">LLenar Preguntas</a>
+                            <a href="#" data-toggle="modal" data-target="#editPx{{ $historia->id }}" class="btn btnDeletePx col-md-10">Eliminar</a>
+                            <div class="modal fade" id="editPx{{ $historia->id }}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4>LLenar Preguntas del Paciente</h4>
+                                            <button type="button" class="close" data-dismiss="modal">
+                                                <span>&times;</span>
+                                            </button>
+                                        </div>
+                                        <form method="POST" action="/paciente/{{ $historia->idPaciente }}/{{ $historia->id }}">
+                                            <div class="modal-body">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <label for="titulo">Nombre</label>
+                                                    <input type="text"
+                                                        name="nombre"
+                                                        class="form-control"
+                                                        id="nombre"
+                                                        placeholder="Nombre"
+                                                        required
+                                                        value="{{ $historia->nombre }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                                                    <input type="date"
+                                                        name="fecha_nacimiento"
+                                                        class="form-control"
+                                                        id="fecha_nacimiento"
+                                                        placeholder="Fecha de Nacimiento"
+                                                        required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="correo">Correo</label>
+                                                    <input type="text"
+                                                        name="correo"
+                                                        class="form-control"
+                                                        id="correo"
+                                                        placeholder="Correo"
+                                                        required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="procedencia">Procedencia</label>
+                                                    <input type="text"
+                                                        name="procedencia"
+                                                        class="form-control"
+                                                        id="procedencia"
+                                                        placeholder="Procedencia"
+                                                        required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="telefono">Telefono</label>
+                                                    <input type="text"
+                                                        name="telefono"
+                                                        class="form-control"
+                                                        id="telefono"
+                                                        placeholder="Telefono"
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="submit" class="btn btn-primary" value="Guardar">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </table>
+        </div>
+
+        <form method="POST" action="/paciente/{paciente}/{h_clinica}/new" enctype="multipart/form-data">
             <div class="field_wrapper colorBlack">
                 @csrf
                 <div>
-                    <input type="text" name="idHC" value="1"/>
-                    <input type="text" name="pregunta[]" value=""/>
-                    <input type="text" name="respuesta[]" value=""/>
-                    <a href="javascript:void(0);" class="add_button" title="Add field"><img src="../images/notas.png"/></a>
+                    @foreach ($posts2 as $consulta)
+                        <div class="card">
+                            {{ $consulta }}
+                        </div> <br>
+                    @endforeach
                 </div>
             </div>
+            <br>
             <div>
                 <input type="submit" class="btn btn-primary" value="Guardar">
             </div>
@@ -251,11 +335,11 @@
                 var x = 1; //Initial field counter is 1
                 var addButton = $('.add_button'); //Add button selector
                 var wrapper = $('.field_wrapper'); //Input field wrapper
-                var fieldHTML = '<div><input type="text" name="field_name['+x+']" value=""/><a href="javascript:void(0);" class="remove_button" title="Remove field"><img src="../images/o2.png"/></a></div>'; //New input field html
+                var fieldHTML = '<div><input type="text" name="field_name['+x+']" value=""/><a href="javascript:void(0);" class="remove_button" title="Remove field"><img src="/images/o2.png"/></a></div>'; //New input field html
                 $(addButton).click(function(){ //Once add button is clicked
                     if(x < maxField){ //Check maximum number of input fields
                         x++; //Increment field counter
-                        $(wrapper).append('<div><input type="text" name="pregunta[]" value=""/><input type="text" name="respuesta[]" value=""/><a href="javascript:void(0);" class="remove_button" title="Remove field"><img src="../images/o2.png"/></a></div>'); // Add field html
+                        $(wrapper).append('<div><input type="text" name="pregunta[]" value=""/><a href="javascript:void(0);" class="remove_button" title="Remove field"><img src="/images/o2.png"/></a></div>'); // Add field html
                     }
                 });
                 $(wrapper).on('click', '.remove_button', function(e){ //Once remove button is clicked
@@ -484,6 +568,39 @@
                                     placeholder="Diastolica" required value={{ old('pd') }}>
                             </div>
 
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Guardar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="hcpx">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Asignar Historia Clinica</h4>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <form method="POST" action="{{ route('paciente.hcpx') }}" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="form-group">
+                                <label for="titulo">Escoja la Historia Clinica a Asignar</label>
+                                <select class="form-control" type="text" name="idHC" id="idHC" required>
+                                    @foreach ($hcp as $historia)
+                                        <option>{{ $historia->id }} - {{ $historia->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                @foreach ($hc as $datos)
+                                    <input type="text" name="idPx" id="idPx" value="{{ $datos->PacienteId }}">
+                                @endforeach
+                        </textarea>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Guardar">

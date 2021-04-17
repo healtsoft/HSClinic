@@ -10,8 +10,4 @@ class Pregunta extends Model
         'pregunta', 'respuesta'
     ];
 
-    public function historiaClinica()
-    {
-        return $this->belongsTo(HistoriaClinica::class, 'idHC'); // FK de esta tabla
-    }
 }

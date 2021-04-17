@@ -35,9 +35,7 @@ class HistoriaClinicaController extends Controller
      */
     public function create(Paciente $paciente)
     {
-        return view('historia_clinica.create', [
-            'report' => $paciente
-        ]);
+
     }
 
     /**

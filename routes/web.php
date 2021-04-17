@@ -24,6 +24,8 @@ Auth::routes();
 
 Route::get('/paciente', 'PacienteController@index')->name('paciente.index');
 
+Route::get('/historias_clinicas', 'HClinicaController@index')->name('hclinica.index');
+
 Route::get('/admin', 'ServicioController@index')->name('admin.index');
 
 Route::get('/panel', 'ServicioController@show')->name('admin.lte');
@@ -34,21 +36,29 @@ Route::get('/admin/users', 'ServicioController@showUser')->name('admin.showUser'
 
 Route::get('/paciente/create', 'PacienteController@create')->name('paciente.create');
 
+Route::post('/hc/create', 'HClinicaController@storeNHC')->name('hcp.create');
+
 Route::get('/paciente/models', 'PacienteController@model')->name('paciente.model');
 
 Route::post('/paciente', 'PacienteController@store')->name('paciente.store');
 
+Route::post('/hcpx', 'PacienteController@storeHCPX')->name('paciente.hcpx');
+
 Route::post('/user', 'PacienteController@registroNuevo')->name('user.store');
 
 Route::post('/paciente/{paciente}/historia_clinica', 'HistoriaClinicaController@store')->name('hc.store');
-
-Route::post('/paciente/{paciente}/historia_clinica/create', 'HistoriaClinicaController@create')->name('hc.create');
 
 Route::get('/paciente/{paciente}/expediente/show', 'HistoriaClinicaController@show')->name('hc.show');
 
 Route::get('/paciente/{paciente}/dolor/create', 'DolorController@index')->name('dolor.show');
 
 Route::get('/paciente/{paciente}', 'PacienteController@show')->name('paciente.show');
+
+Route::get('/hclinica/{h_clinica}/index', 'HClinicaController@create');
+
+Route::get('/paciente/{paciente}/{h_clinica}/new', 'PacienteController@showhcp');
+
+Route::post('/paciente/{paciente}/{h_clinica}/new/create', 'PacienteController@hcpxcreate');
 
 Route::get('/buscar/px', 'PacienteController@buscador');
 
@@ -64,6 +74,8 @@ Route::get('/paciente/{paciente}/historia_clinica/create', 'HistoriaClinicaContr
 
 Route::post('/paciente/{paciente}/nota', 'NotaController@store');
 
+Route::post('/hcp/{hcp}/preguntas', 'HClinicaController@store')->name('hcp.store');
+
 Route::post('/servicio/update/{servicio}', 'ServicioController@update');
 
 Route::post('/paciente/update/{paciente}', 'PacienteController@update');
@@ -76,7 +88,7 @@ Route::delete('/paciente/delete/{paciente}', 'PacienteController@destroy');
 
 Route::post('/admin/servicio', 'ServicioController@store');
 
-Route::post('/admin/hcn', 'ServicioController@storeP');
+Route::post('/admin/hcn', 'HClinicaController@store');
 
 Route::get('/admin/ingresos', 'ServicioController@ingresos')->name('admin.ingreso');
 

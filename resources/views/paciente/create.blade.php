@@ -20,7 +20,7 @@
 							required
 							value={{ old('nombre') }} >
 					</div>
-					<div class="form-group">
+					<!--<div class="form-group">
 						<label for="fecha_nacimiento">Fecha de Nacimiento</label>
 						<input type="date"
 							name="fecha_nacimiento"
@@ -60,20 +60,20 @@
 							<option value="Seguro">
 
 						</datalist>
-						
+
 					</div>
-						
-					<script type="text/javascript"> 
-						function showDiv(select){ 
-							if(select.value=='Seguro'){ 
+
+					<script type="text/javascript">
+						function showDiv(select){
+							if(select.value=='Seguro'){
 							document.getElementById('hidden_div').style.display = "block";
 							document.getElementById('seguro').value = ""
-							} else{ 
+							} else{
 							document.getElementById('hidden_div').style.display = "none";
-							document.getElementById('seguro').value = "Sin Seguro" 
-							} 
-						} 
-					</script> 
+							document.getElementById('seguro').value = "Sin Seguro"
+							}
+						}
+					</script>
 
 					<div class="form-group" id="hidden_div" style="display:none;">
 						<label for="seguro">Seguro</label>
@@ -84,7 +84,7 @@
 							placeholder="Seguro"
 							required
 							value= "Sin Seguro">
-					</div>
+					</div>-->
 					<div class="form-group">
 						<label for="telefono">Telefono</label>
 						<input type="text"

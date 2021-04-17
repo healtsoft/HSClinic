@@ -1,7 +1,7 @@
 @extends('layouts.lte')
 
 @section('content')
-    <div class="col-8">
+    <div class="">
         <div class="input-group">
             <input type="text" class="form-control" id="texto" placeholder="Ingrese nombre">
             <div class="input-group-append"><span class="input-group-text">Buscar</span></div>

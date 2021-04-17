@@ -10,6 +10,10 @@ use App\DatosConsulta;
 use App\DatosPersonal;
 use App\DatosPatologico;
 use App\DatosTto;
+use App\Estudio;
+use App\Pregunta;
+use App\h_clinica;
+use App\HCPX;
 use App\HistoriaClinica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -117,6 +121,48 @@ class PacienteController extends Controller
         return view('paciente.create')->with('pacientes', $pacientes);
     }
 
+    public function storeHCPX(Request $request)
+    {
+        $idHC = request()->get('idHC');
+        $idHC = intval(preg_replace('/[^0-9]+/', '', $idHC), 10);
+
+        $hcpx = new HCPX();
+        $hcpx->idPaciente = $request->idPx;
+        $hcpx->idEspecialista = Auth::user()->id;
+        $hcpx->idHC = $idHC;
+
+        $hcpx->save();
+
+        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
+
+    }
+
+    public function storeNPx(Request $request)
+    {
+        $ruta_imagen = ('../images/sf.jpg');
+
+        $pacientes = new Paciente();
+        $pacientes->nombre = $request->nombre;
+        $pacientes->fechaNacimiento = "Sin datos";
+        $pacientes->correo = "Sin datos";
+        $pacientes->procedencia = "Sin datos";
+        $pacientes->seguro = "Sin datos";
+        $pacientes->telefono = $request->telefono;
+        $pacientes->fotoUrl = $ruta_imagen;
+        $pacientes->domicilio = "Sin datos";
+        $pacientes->sexo = "Sin datos";
+        $pacientes->estadoCivil = "Sin datos";
+        $pacientes->ocupacion = "Sin datos";
+        $pacientes->estudios = "Sin datos";
+        $pacientes->tipoSangre = "Sin datos";
+        $pacientes->idEspecialista = Auth::user()->id;
+
+        $pacientes->save();
+
+        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -125,13 +171,22 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
+        $ruta_imagen = ('../images/sf.jpg');
+
         $pacientes = new Paciente();
         $pacientes->nombre = $request->nombre;
-        $pacientes->fechaNacimiento = $request->fecha_nacimiento;
-        $pacientes->correo = $request->correo;
-        $pacientes->procedencia = $request->procedencia;
-        $pacientes->seguro = $request->seguro;
+        $pacientes->fechaNacimiento = "Sin datos";
+        $pacientes->correo = "Sin datos";
+        $pacientes->procedencia = "Sin datos";
+        $pacientes->seguro = "Sin datos";
         $pacientes->telefono = $request->telefono;
+        $pacientes->fotoUrl = $ruta_imagen;
+        $pacientes->domicilio = "Sin datos";
+        $pacientes->sexo = "Sin datos";
+        $pacientes->estadoCivil = "Sin datos";
+        $pacientes->ocupacion = "Sin datos";
+        $pacientes->estudios = "Sin datos";
+        $pacientes->tipoSangre = "Sin datos";
         $pacientes->idEspecialista = Auth::user()->id;
 
         $pacientes->save();
@@ -347,10 +402,112 @@ class PacienteController extends Controller
             ->take(1)
             ->get();
 
+        $estudios = Estudio::select(
+            'estudios.id',
+            'estudios.nombre',
+            'estudios.descripcion',
+            'estudios.estudioUrl'
+        )
+            ->where('estudios.idPaciente', '=', $paciente->id)
+            ->orderby('created_at','DESC')
+            ->take(6)
+            ->get();
+
+        $hcp = h_clinica::select(
+            'h_clinicas.id',
+            'h_clinicas.nombre'
+        )
+            ->orderby('created_at','DESC')
+            ->get();
+
+        $hcpxes = h_clinica::select(
+            'h_clinicas.id',
+            'h_clinicas.nombre',
+            'h_c_p_x_e_s.idPaciente'
+        )
+            ->join('h_c_p_x_e_s', 'h_c_p_x_e_s.idHC' , '=', 'h_clinicas.id')
+            ->where('h_c_p_x_e_s.idPaciente', '=', $paciente->id)
+            ->get();
+
+        $posts2 = Pregunta::select(
+            'preguntas.pregunta as Preg'
+        )
+            ->join('h_c_p_x_e_s', 'h_c_p_x_e_s.idHC' , '=', 'preguntas.idHC')
+            ->join('h_clinicas', 'h_clinicas.id' , '=', 'preguntas.idHC')
+            ->where('h_c_p_x_e_s.idPaciente', '=', $paciente->id)
+            ->where('h_c_p_x_e_s.idHC', '=', 'preguntas.idHC')
+            ->get();
+
+        $idpa = $paciente->id;
+        //$consulta = DB::select("select p.pregunta from preguntas p inner join h_c_p_x_e_s hc on p.idHC = hc.idHC where hc.idHC = p.idHC AND hc.idPaciente = 43;");
+        //$sql = "select hc.nombre from h_clinicas hc inner join h_c_p_x_e_s hcp on hc.id = hcp.idHC where hcp.idPaciente = ?";
+        $consulta = DB::select('select p.pregunta from preguntas p inner join h_c_p_x_e_s hc on p.idHC = hc.idHC where hc.idHC = p.idHC AND hc.idPaciente = 43');
+
         return view('paciente.show', [
             'report' => $paciente
-        ])->with('hc', $hc)->with('notas', $notas)->with('signos', $signos)->with('dolor', $dolor);
+        ])->with('hc', $hc)->with('estudios', $estudios)->with('notas', $notas)
+        ->with('signos', $signos)->with('dolor', $dolor)->with('hcp', $hcp)
+        ->with('posts2', $posts2)->with('consulta', $consulta)
+        ->with('hcpxes', $hcpxes);
     }
+
+    public function showhcp(Paciente $paciente, h_clinica $h_clinica, Nota $nota)
+    {
+        $usuario = auth()->user();
+
+
+        $hcpxes = h_clinica::select(
+            'h_clinicas.id',
+            'h_clinicas.nombre',
+            'h_c_p_x_e_s.idPaciente'
+        )
+            ->join('h_c_p_x_e_s', 'h_c_p_x_e_s.idHC' , '=', 'h_clinicas.id')
+            ->where('h_c_p_x_e_s.idPaciente', '=', $paciente->id)
+            ->get();
+
+        $posts2 = Pregunta::select(
+            'preguntas.id as idPregunta',
+            'preguntas.pregunta as Preg',
+            'h_clinicas.id as idHC',
+            'h_c_p_x_e_s.idPaciente as idPx'
+        )
+            ->join('h_clinicas', 'h_clinicas.id' , '=', 'preguntas.idHC')
+            ->join('h_c_p_x_e_s', 'h_clinicas.id' , '=', 'h_c_p_x_e_s.idHC')
+            ->where('preguntas.idHC', '=', $h_clinica->id)
+            ->where('h_c_p_x_e_s.idPaciente', '=', $paciente->id)
+            ->get();
+
+        $idpa = $paciente->id;
+        //$consulta = DB::select("select p.pregunta from preguntas p inner join h_c_p_x_e_s hc on p.idHC = hc.idHC where hc.idHC = p.idHC AND hc.idPaciente = 43;");
+        //$sql = "select hc.nombre from h_clinicas hc inner join h_c_p_x_e_s hcp on hc.id = hcp.idHC where hcp.idPaciente = ?";
+        $consulta = DB::select('select p.pregunta from preguntas p inner join h_c_p_x_e_s hc on p.idHC = hc.idHC where hc.idHC = p.idHC AND hc.idPaciente = 43');
+
+        return view('paciente.llenadoPreguntas', [
+            'report' => $paciente
+        ])
+        ->with('posts2', $posts2)->with('consulta', $consulta)
+        ->with('hcpxes', $hcpxes);
+    }
+
+    public function hcpxcreate(Request $request)
+    {
+
+        $datos_a_insertar = array();
+        $datos = array();
+        foreach ($request->respuesta as $key => $sport)
+        {
+            $datos_a_insertar[$key]['respuesta'] = $sport;
+            $datos[$key]['respuesta'] = $sport;
+            $datos[$key]['idPaciente'] = $request->idPaciente;
+            $datos[$key]['idEspecialista'] = $request->idEspecialista;
+            $datos[$key]['idHC'] = $request->idHC;
+            $datos[$key]['idPregunta'] = $request->idPregunta;
+        }
+        DB::table('expedientes')->insert($datos);
+
+        return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
+    }
+
 
     /**
      * Show the form for editing the specified resource.
