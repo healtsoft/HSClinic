@@ -239,7 +239,6 @@
                         <div class="hijo2 col-md-12">
                             <h1>{{ $historia->nombre }}</h1>
                             <a href="/paciente/{{ $historia->idPaciente }}/{{ $historia->id }}/new" class="btn btnIndexPx col-md-10 mup2">Ver Preguntas</a><br>
-                            <a href="#" data-toggle="modal" data-target="#editPx{{ $historia->id }}" class="btn btnIndexPx col-md-10">LLenar Preguntas</a>
                             <a href="#" data-toggle="modal" data-target="#editPx{{ $historia->id }}" class="btn btnDeletePx col-md-10">Eliminar</a>
                             <div class="modal fade" id="editPx{{ $historia->id }}">
                                 <div class="modal-dialog">

@@ -19,3 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/historia_clinica/create', 'HistoriaClinicaController@store');
+
+Route::get('/user', 'PacienteController@allUsers');
+
+Route::resource('/pxs', [PacienteController::class]);

@@ -38,7 +38,6 @@ class EventsController extends Controller
             ;
 
         $exist = true;
-
         if (count($pacientes) > 0) {
             return view('adminlte.calendar')
                 ->with('pacientes', $pacientes)
@@ -128,7 +127,6 @@ class EventsController extends Controller
                 ->join('datos_personals', 'datos_personals.idPaciente', '=', 'pacientes.id')
                 ->join('users', 'events.idEspecialista', '=', 'users.id')
                 ->join('servicios', 'servicios.id', '=', 'events.title')
-                ->where('users.id', '=', $user)
                 ->get();
         }
 
