@@ -4,7 +4,7 @@
     <div class="">
         <div id="resultados" class="bg-light border">
             <div>
-                <h1 class="aliizq">Preguntas</h1>
+                <h1 class="aliizq">Crea tus propias preguntas</h1>
                 <a href="#" data-toggle="modal" data-target="#preguntas" class="btn btn-primary alider">Crear/Editar Preguntas</a>
                 <br><br><br><br><br>
                 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

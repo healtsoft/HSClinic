@@ -23,34 +23,35 @@ class HClinicaController extends Controller
     public function index(Paciente $paciente)
     {
         $usuario = auth()->user();
-        $dolor = h_clinica::select(
+
+        //$hc = Expediente::select(
+        //    'expedientes.idHC as HC',
+        //    'expedientes.idPregunta as Pregunta',
+        //    'expedientes.respuesta as Respuesta'
+        //)
+        //    ->get();
+
+        //$posts2 = Expediente::
+        //    join('h_clinicas', 'h_clinicas.id', '=', 'expedientes.idHC')
+        //    ->join('preguntas', 'preguntas.id', '=', 'expedientes.idPregunta')
+        //    ->select('preguntas.pregunta', 'h_clinicas.nombre')
+        //    ->where('preguntas.idHC', '=', 'h_clinicas.id')
+        //    ->get();
+
+        //$posts3 = h_clinica::
+        //    join('preguntas', 'preguntas.idHC', '=', 'h_clinicas.id')
+        //    ->select('preguntas.pregunta')
+        //    ->where('preguntas.idHC', '=', 'h_clinicas.id')
+        //    ->get();
+
+        $hcp = h_clinica::select(
             'h_clinicas.id',
             'h_clinicas.nombre'
         )
             ->orderby('created_at','DESC')
             ->get();
 
-        $hc = Expediente::select(
-            'expedientes.idHC as HC',
-            'expedientes.idPregunta as Pregunta',
-            'expedientes.respuesta as Respuesta'
-        )
-            ->get();
-
-        $posts2 = Expediente::
-            join('h_clinicas', 'h_clinicas.id', '=', 'expedientes.idHC')
-            ->join('preguntas', 'preguntas.id', '=', 'expedientes.idPregunta')
-            ->select('preguntas.pregunta', 'h_clinicas.nombre')
-            ->where('preguntas.idHC', '=', 'h_clinicas.id')
-            ->get();
-
-        $posts3 = h_clinica::
-            join('preguntas', 'preguntas.idHC', '=', 'h_clinicas.id')
-            ->select('preguntas.pregunta')
-            ->where('preguntas.idHC', '=', 'h_clinicas.id')
-            ->get();
-
-        return view("admin.hc")->with('hc', $dolor);
+        return view("admin.hc")->with('hc', $hcp);
     }
 
     /**
@@ -61,7 +62,7 @@ class HClinicaController extends Controller
     public function create(h_clinica $h_clinica ,Pregunta $pregunta)
     {
         $usuario = auth()->user();
-        $hcp = Pregunta::select(
+        $hc = Pregunta::select(
             'preguntas.id',
             'preguntas.pregunta',
             'preguntas.idHC'
@@ -70,7 +71,7 @@ class HClinicaController extends Controller
             ->orderby('created_at','DESC')
             ->get();
 
-        $hcp2 = h_clinica::select(
+        $hc2 = h_clinica::select(
             'h_clinicas.id',
             'h_clinicas.nombre'
         )
@@ -79,7 +80,7 @@ class HClinicaController extends Controller
             ->take(1)
             ->get();
 
-        return view("admin.createhc")->with('hc', $hcp)->with('hc2', $hcp2);
+        return view("admin.createhc")->with('hc', $hc)->with('hc2', $hc2);
 
         //return view('admin.createhc', [
         //    'report' => $h_clinica

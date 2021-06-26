@@ -56,9 +56,9 @@ Route::get('/paciente/{paciente}', 'PacienteController@show')->name('paciente.sh
 
 Route::get('/hclinica/{h_clinica}/index', 'HClinicaController@create');
 
-Route::get('/paciente/{paciente}/{h_clinica}/new', 'PacienteController@showhcp');
+Route::get('/paciente/{paciente}/{h_clinica}/{hcpx}/new', 'PacienteController@showhcp');
 
-Route::post('/paciente/{paciente}/{h_clinica}/new/create', 'PacienteController@hcpxcreate');
+Route::post('/paciente/{paciente}/{h_clinica}/{hcpx}/new/create', 'PacienteController@hcpxcreate');
 
 Route::get('/buscar/px', 'PacienteController@buscador');
 

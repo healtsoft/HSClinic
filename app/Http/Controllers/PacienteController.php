@@ -11,6 +11,7 @@ use App\DatosPersonal;
 use App\DatosPatologico;
 use App\DatosTto;
 use App\Estudio;
+use App\Expediente;
 use App\Pregunta;
 use App\h_clinica;
 use App\HCPX;
@@ -50,18 +51,9 @@ class PacienteController extends Controller
             'pacientes.procedencia as PacienteProcedencia',
             'pacientes.correo as PacienteCorreo',
             'pacientes.telefono as PacienteTelefono',
-            'pacientes.idEspecialista as PacienteIdEspecialista',
-            'datos_personals.id as PersonalesId',
-            'datos_personals.fotoUrl as PersonalesFotoUrl',
-            'datos_personals.domicilio as PersonalesDomicilio',
-            'datos_personals.sexo as PersonalesSexo',
-            'datos_personals.estadoCivil as PersonalesEstadoCivil',
-            'datos_personals.ocupacion as PersonalesOcupacion',
-            'datos_personals.estudios as PersonalesEstudios',
-            'datos_personals.tipoSangre as PersonalesTipoSangre'
+            'pacientes.idEspecialista as PacienteIdEspecialista'
 
         )
-            ->join('datos_personals', 'datos_personals.idPaciente', '=', 'pacientes.id')
             ->where('pacientes.idEspecialista', '=', $usuario->id)
             ->orderby('pacientes.id','DESC')
             ->get();
@@ -70,35 +62,6 @@ class PacienteController extends Controller
             ->with('pacientes', $pacientes)
             ->with('dp', $dp)
             ->with('usuario', $usuario);
-    }
-
-    public function buscador(Request $request){
-        $usuario = auth()->user();
-        $dp = Paciente::select(
-            'pacientes.id as PacienteId',
-            'pacientes.nombre as PacienteNombre',
-            'pacientes.fechaNacimiento as PacienteFechaNacimiento',
-            'pacientes.procedencia as PacienteProcedencia',
-            'pacientes.correo as PacienteCorreo',
-            'pacientes.telefono as PacienteTelefono',
-            'pacientes.idEspecialista as PacienteIdEspecialista',
-            'datos_personals.id as PersonalesId',
-            'datos_personals.fotoUrl as PersonalesFotoUrl',
-            'datos_personals.domicilio as PersonalesDomicilio',
-            'datos_personals.sexo as PersonalesSexo',
-            'datos_personals.estadoCivil as PersonalesEstadoCivil',
-            'datos_personals.ocupacion as PersonalesOcupacion',
-            'datos_personals.estudios as PersonalesEstudios',
-            'datos_personals.tipoSangre as PersonalesTipoSangre'
-
-        )
-            ->join('datos_personals', 'datos_personals.idPaciente', '=', 'pacientes.id')
-            ->where('pacientes.idEspecialista', '=', $usuario->id)
-            ->where('nombre', 'like', '%' . $request->texto . '%')
-            ->orderby('pacientes.id','DESC')
-            ->get();
-
-        return view("busquedas.show",compact("dp"));
     }
 
 
@@ -137,6 +100,27 @@ class PacienteController extends Controller
         $hcpx->idHC = $idHC;
 
         $hcpx->save();
+
+        $idhcpx = $hcpx->id;
+
+        $respF = "N/A";
+        $resultados2 = 0;
+        $consulta2 = Pregunta::select(
+            'preguntas.id'
+        )
+            ->join('h_clinicas', 'h_clinicas.id' , '=', 'preguntas.idHC')
+            ->where('preguntas.idHC', '=', $idHC)
+            ->pluck('id');
+
+        $count = Pregunta::count();
+        foreach($consulta2 as $id){
+            $expedientes = new Expediente;
+            $expedientes->idPregunta = $id;
+            $expedientes->respuesta = "N/A";
+            $expedientes->idHCPX = $idhcpx;
+
+            $expedientes->save();
+        }
 
         return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
 
@@ -196,102 +180,7 @@ class PacienteController extends Controller
 
         $pacientes->save();
 
-        $idPx = $pacientes->id;
 
-        $ruta_imagen = ('../images/sf.jpg');
-        $datosPersonales = new DatosPersonal(); # Crear nuevo modelo
-        # Ponerle los datos para guardar
-        $datosPersonales->fotoUrl = $ruta_imagen;
-        $datosPersonales->domicilio = "Sin datos";
-        $datosPersonales->sexo = "Sin datos";
-        $datosPersonales->estadoCivil = "Sin datos";
-        $datosPersonales->ocupacion = "Sin datos";
-        $datosPersonales->estudios = "Sin datos";
-        $datosPersonales->tipoSangre = "Sin datos";
-        $datosPersonales->idPaciente = $idPx;
-        # Guardar en BD
-        $datosPersonales->save();
-        # ==================================
-        # Aquí tenemos el id recién guardado :)
-        # ==================================
-        $idDatosPersonales = $datosPersonales->id;
-
-        #Datos patologicos
-        $datosPatologicos = new DatosPatologico(); # Crear nuevo modelo
-        # Ponerle los datos para guardar
-        $datosPatologicos->enfermedades = "Sin datos";
-        $datosPatologicos->heredofamiliares = "Sin datos";
-        $datosPatologicos->medicamentos = "Sin datos";
-        $datosPatologicos->cirugias = "Sin datos";
-        $datosPatologicos->tipoBandera = "Sin datos";
-        $datosPatologicos->alcohol = "Sin datos";
-        $datosPatologicos->cigarro = "Sin datos";
-        $datosPatologicos->drogas = "Sin datos";
-        $datosPatologicos->fracturas = "Sin datos";
-        # Guardar en BD
-        $datosPatologicos->save();
-        # ==================================
-        # Aquí tenemos el id recién guardado :)
-        # ==================================
-        $idDatosPatologicos = $datosPatologicos->id;
-
-        #Datos de consulta
-        $datosConsulta = new DatosConsulta(); # Crear nuevo modelo
-        # Ponerle los datos para guardar
-        $datosConsulta->motivoConsulta = "Sin datos";
-        $datosConsulta->causaMolestia = "Sin datos";
-        $datosConsulta->inicioMolestia = "Sin datos";
-        $datosConsulta->ttoPrevio = "Sin datos";
-        $datosConsulta->causaAumento = "Sin datos";
-        $datosConsulta->causaDisminuye = "Sin datos";
-        $datosConsulta->nivelDolor = "Sin datos";
-        $datosConsulta->alteracionesMarcha = "Sin datos";
-        $datosConsulta->disposotivoAsistencia = "Sin datos";
-        # Guardar en BD
-        $datosConsulta->save();
-        # ==================================
-        # Aquí tenemos el id recién guardado :)
-        # ==================================
-        $idDatosConsulta = $datosConsulta->id;
-
-        #Datos Tto
-        $datosTto = new DatosTto(); # Crear nuevo modelo
-        # Ponerle los datos para guardar
-        $datosTto->dxMedico = "Sin datos";
-        $datosTto->dxFisio = "Sin datos";
-        $datosTto->codigoCie = "Sin datos";
-        $datosTto->tratamiento = "Sin datos";
-        $datosTto->objetivoTto = "Sin datos";
-        $datosTto->comentarios = "Sin datos";
-        $datosTto->numeroSesiones = "0";
-        # Guardar en BD
-        $datosTto->save();
-        # ==================================
-        # Aquí tenemos el id recién guardado :)
-        # ==================================
-        $idDatosTto = $datosTto->id;
-
-         #Historia Clinica
-         $hc = new HistoriaClinica(); # Crear nuevo modelo
-         # Ponerle los datos para guardar
-         $hc->idPaciente = $idPx;
-         $hc->idPatologicos = $idDatosPatologicos;
-         $hc->idConsulta = $idDatosConsulta;
-         $hc->idTto = $idDatosTto;
-         # Guardar en BD
-         $hc->save();
-         # ==================================
-         # Aquí tenemos el id recién guardado :)
-         # ==================================
-         $idHC = $hc->id;
-
-        /*almacenar en la BD(con modelo)
-        auth()->user()->pacientes()->create([
-            'nombre' => $data['nombre'],
-            'fechaNacimiento' => $data['fecha_nacimiento'],
-            'correo' => $data['correo'],
-            'telefono' => $data['telefono'],
-        ]);*/
 
         return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
     }
@@ -325,50 +214,8 @@ class PacienteController extends Controller
             'pacientes.fechaNacimiento as PacienteFechaNacimiento',
             'pacientes.correo as PacienteCorreo',
             'pacientes.telefono as PacienteTelefono',
-            'pacientes.idEspecialista as PacienteIdEspecialista',
-            'datos_personals.id as PersonalesId',
-            'datos_personals.fotoUrl as PersonalesFotoUrl',
-            'datos_personals.domicilio as PersonalesDomicilio',
-            'datos_personals.sexo as PersonalesSexo',
-            'datos_personals.estadoCivil as PersonalesEstadoCivil',
-            'datos_personals.ocupacion as PersonalesOcupacion',
-            'datos_personals.estudios as PersonalesEstudios',
-            'datos_personals.tipoSangre as PersonalesTipoSangre',
-            'historia_clinicas.id as idHC',
-            'datos_patologicos.id as idPatologicos',
-            'datos_patologicos.enfermedades as PatologicosEnfermedades',
-            'datos_patologicos.heredofamiliares as PatologicosHeredofamiliares',
-            'datos_patologicos.medicamentos as PatologicosMedicamentos',
-            'datos_patologicos.cirugias as PatologicosCirugias',
-            'datos_patologicos.tipoBandera as PatologicosTipoBandera',
-            'datos_patologicos.alcohol as PatologicosAlcohol',
-            'datos_patologicos.cigarro as PatologicosCigarro',
-            'datos_patologicos.drogas as PatologicosDrogas',
-            'datos_patologicos.fracturas as PatologicosFracturas',
-            'datos_consultas.id as idConsulta',
-            'datos_consultas.motivoConsulta as ConsultaMotivoConsulta',
-            'datos_consultas.causaMolestia as ConsultaCausaMolestia',
-            'datos_consultas.inicioMolestia as ConsultaInicioMolestia',
-            'datos_consultas.ttoPrevio as ConsultaTtoPrevio',
-            'datos_consultas.causaAumento as ConsultaCausaAumento',
-            'datos_consultas.causaDisminuye as ConsultaCausaDisminuye',
-            'datos_consultas.nivelDolor as ConsultaNivelDolor',
-            'datos_consultas.alteracionesMarcha as ConsultaAlteracionesMarcha',
-            'datos_consultas.disposotivoAsistencia as ConsultaDispositivoAsistencia',
-            'datos_ttos.id as idTto',
-            'datos_ttos.dxMedico as TtoDxMedico',
-            'datos_ttos.dxFisio as TtoDxFisio',
-            'datos_ttos.codigoCie as TtoCodigoCie',
-            'datos_ttos.tratamiento as TtoTratamiento',
-            'datos_ttos.objetivoTto as TtoObjetivoTto',
-            'datos_ttos.comentarios as TtoComentarios',
-            'datos_ttos.numeroSesiones as TtoNumeroSesiones'
+            'pacientes.idEspecialista as PacienteIdEspecialista'
         )
-            ->join('datos_personals', 'datos_personals.idPaciente', '=', 'pacientes.id')
-            ->join('historia_clinicas', 'pacientes.id', '=', 'historia_clinicas.idPaciente')
-            ->join('datos_patologicos', 'historia_clinicas.idPatologicos', '=', 'datos_patologicos.id')
-            ->join('datos_consultas', 'datos_consultas.id', '=', 'historia_clinicas.idConsulta')
-            ->join('datos_ttos', 'datos_ttos.id', '=', 'historia_clinicas.idTto')
             ->where('pacientes.id', '=', $paciente->id)
             ->where('pacientes.idEspecialista', $usuario->id)
             ->take(1)
@@ -382,14 +229,6 @@ class PacienteController extends Controller
             ->where('notas.idPaciente', '=', $paciente->id)
             ->orderby('created_at','DESC')
             ->take(6)
-            ->get();
-
-        $dolor = Dolor::select(
-            'dolors.nivelDolor'
-        )
-            ->where('dolors.idPaciente', '=', $paciente->id)
-            ->orderby('created_at','DESC')
-            ->take(1)
             ->get();
 
         $signos = SignosVital::select(
@@ -428,7 +267,8 @@ class PacienteController extends Controller
         $hcpxes = h_clinica::select(
             'h_clinicas.id',
             'h_clinicas.nombre',
-            'h_c_p_x_e_s.idPaciente'
+            'h_c_p_x_e_s.idPaciente',
+            'h_c_p_x_e_s.id as idhcp'
         )
             ->join('h_c_p_x_e_s', 'h_c_p_x_e_s.idHC' , '=', 'h_clinicas.id')
             ->where('h_c_p_x_e_s.idPaciente', '=', $paciente->id)
@@ -451,12 +291,12 @@ class PacienteController extends Controller
         return view('paciente.show', [
             'report' => $paciente
         ])->with('hc', $hc)->with('estudios', $estudios)->with('notas', $notas)
-        ->with('signos', $signos)->with('dolor', $dolor)->with('hcp', $hcp)
+        ->with('signos', $signos)->with('hcp', $hcp)
         ->with('posts2', $posts2)->with('consulta', $consulta)
         ->with('hcpxes', $hcpxes);
     }
 
-    public function showhcp(Paciente $paciente, h_clinica $h_clinica, Nota $nota)
+    public function showhcp(Paciente $paciente, h_clinica $h_clinica, Nota $nota, HCPX $hcpx)
     {
         $usuario = auth()->user();
 
@@ -470,17 +310,44 @@ class PacienteController extends Controller
             ->where('h_c_p_x_e_s.idPaciente', '=', $paciente->id)
             ->get();
 
+        $idhcpx2 = Pregunta::select(
+            'expedientes.idHCPX as idhc',
+            'h_c_p_x_e_s.id'
+        )
+            ->join('h_clinicas', 'h_clinicas.id' , '=', 'preguntas.idHC')
+            ->join('h_c_p_x_e_s', 'h_c_p_x_e_s.idHC' , '=', 'h_clinicas.id')
+            ->join('expedientes', 'expedientes.idHCPX' , '=', 'h_c_p_x_e_s.id')
+            ->where('h_c_p_x_e_s.idPaciente', '=', $paciente->id)
+            ->where('preguntas.idHC', '=', $h_clinica->id)
+            ->distinct()
+            ->get();
+
         $posts2 = Pregunta::select(
             'preguntas.id as idPregunta',
             'preguntas.pregunta as Preg',
-            'h_clinicas.id as idHC',
-            'h_c_p_x_e_s.idPaciente as idPx'
+            'h_c_p_x_e_s.id as hcpx',
+            'expedientes.idHCPX as idhc',
+            'expedientes.respuesta as resp'
         )
             ->join('h_clinicas', 'h_clinicas.id' , '=', 'preguntas.idHC')
-            ->join('h_c_p_x_e_s', 'h_clinicas.id' , '=', 'h_c_p_x_e_s.idHC')
-            ->where('preguntas.idHC', '=', $h_clinica->id)
+            ->join('h_c_p_x_e_s', 'h_c_p_x_e_s.idHC' , '=', 'h_clinicas.id')
+            ->join('expedientes', 'expedientes.idHCPX' , '=', 'h_c_p_x_e_s.id')
             ->where('h_c_p_x_e_s.idPaciente', '=', $paciente->id)
+            ->where('preguntas.idHC', '=', $h_clinica->id)
+            ->where('expedientes.idHCPX', '=', $hcpx->id)
+            ->distinct()
             ->get();
+
+
+        $preguntas = Pregunta::select(
+            'preguntas.id as idPregunta',
+            'preguntas.pregunta as Preg',
+            'h_clinicas.id as idHC'
+        )
+            ->join('h_clinicas', 'h_clinicas.id' , '=', 'preguntas.idHC')
+            ->where('preguntas.idHC', '=', $h_clinica->id)
+            ->get();
+
 
         $idpa = $paciente->id;
         //$consulta = DB::select("select p.pregunta from preguntas p inner join h_c_p_x_e_s hc on p.idHC = hc.idHC where hc.idHC = p.idHC AND hc.idPaciente = 43;");
@@ -497,18 +364,26 @@ class PacienteController extends Controller
     public function hcpxcreate(Request $request)
     {
 
-        $datos_a_insertar = array();
-        $datos = array();
-        foreach ($request->respuesta as $key => $sport)
-        {
-            $datos_a_insertar[$key]['respuesta'] = $sport;
-            $datos[$key]['respuesta'] = $sport;
-            $datos[$key]['idPaciente'] = $request->idPaciente;
-            $datos[$key]['idEspecialista'] = $request->idEspecialista;
-            $datos[$key]['idHC'] = $request->idHC;
-            $datos[$key]['idPregunta'] = $request->idPregunta;
-        }
-        DB::table('expedientes')->insert($datos);
+        $titlename = $request->respuesta;
+
+        for($i=0; $i < count($titlename);$i++) {
+            DB::table('expedientes')
+                ->join('h_c_p_x_e_s', 'expedientes.idHCPX' , '=', 'h_c_p_x_e_s.id')
+                ->join('preguntas', 'expedientes.idPregunta' , '=', 'preguntas.id')
+                ->where('expedientes.idHCPX', '=', $request->hcpx)
+                ->where('expedientes.idPregunta', '=', $request->idPregunta)
+                ->distinct()
+                ->update(['respuesta' => strtolower(str_replace('.', '' , $titlename[$i]))]);
+            }
+
+        //$datos_a_insertar = array();
+        //$datos = array();
+        //foreach ($request->respuesta as $key => $sport)
+        //{
+        //    $datos_a_insertar[$key]['respuesta'] = $sport;
+        //    $datos[$key]['respuesta'] = $sport;
+        //}
+        //DB::table('expedientes')->update($datos);
 
         return redirect( URL::previous() )->with('success', 'Paciente Creado con Exito');
     }
